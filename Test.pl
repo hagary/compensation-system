@@ -5,3 +5,10 @@ CompStart = (2,2).
 Preference = ([(4,3)],[2,3,1])
 
 compensate((TA,Group,2,CompStart,Preference,Rooms,[]),OUT).
+
+TA = ([(1,5)],[],[]),
+Group = ([(5,5)],[],[],35),
+Rooms = [(1,1,[(1,5)],[],35,2)],
+CompStart = (2,3),
+Preference = ([],[1,2,3]),
+compensate((TA,Group,2,CompStart,Preference,Rooms,[]),OUT).

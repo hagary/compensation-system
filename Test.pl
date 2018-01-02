@@ -10,12 +10,11 @@ RoomTuple = (CompRoomID, RoomLoc, RoomCapacity, RoomType),
 IN = (TA, Group, CompStart, Preferences, Holidays,Pref),
 TA = (TAOccup, TAComp, TAOff),
 Group = (GroupOccup, GroupComp, GroupOff, GroupSize),
+Rooms = [RoomsIDs, RoomsLocs, RoomsCaps, RoomsTypes, RoomsOccupList],
 
-Rooms = [(1,1,30,2,[(3,5)],[(1,3,1)]), (2,2,30,2,[(3,5)],[(1,3,1)])],
+Rooms = [[1,2,3],[2,2,2],[30,20,30],[2,1,1],[[(1,1)], [], [(3,1),(3,2)]], [[],[],[(1,3,3)]]],
 TA = ([],[],[]),
 Group = ([],[],[], 40),
 CompStart = (1,3),
 Preferences = [(3,1)],
-compensate((TA, Group, CompStart, Preferences, [], Rooms, 2, [2,1,3]), OUT).
-
-cost_of_time((1, 3), [(2,5),(3,1)], [2,6], [5], (1, 3, 4), C).
+compensate((TA, Group, CompStart, Preferences, [], Rooms, 1, [2,1,3]), OUT).

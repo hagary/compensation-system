@@ -1,4 +1,6 @@
 :- use_module(library(clpfd)).
+% Locations: [Bs->1, Cs->2, Ds->3]
+% Room Type: [lab->1, tut->2, lec->3]
 
 compensate(IN, OUT):-
   %----------------------------VARIABLES------------------------------
@@ -6,21 +8,29 @@ compensate(IN, OUT):-
   TA = (TAOccup, TAComp, TAOff),
   Group = (GroupOccup, GroupComp, GroupOff, GroupSize),
   CompStart = (CompStWeek, CompStDay),
-  % PrefPlaces (ordered) = [B->1, C->2, D->3]
-  % RoomType = [lab->1, tut->2, lec->3]
-  % Compensation = (CompWeek, CompDay, CompSlot, CompRoomID, RoomLoc),
   Compensation = (CompWeek, CompDay, CompSlot),
-
+  Rooms = [RoomsIDs, RoomsLocs, RoomsCaps, RoomsTypes, RoomsOccupList, RoomsCompList],
+  maplist(times_to_pairs, RoomsOccupTimes, RoomsOccupList),
+  maplist(set_domain, RoomsOccupTimes, RoomsOccupVars),
+  maplist(dates_to_triples, RoomsCompTimes, RoomsCompList),
+  maplist(set_domain, RoomsCompTimes, RoomsCompVars),
   %----------------------------DOMAINS------------------------------
+
   %TODO adjust back week range.
   CompWeek in 1..3,
   CompDay in 1..6,
   CompSlot in 1..5,
+  element(RoomIdx, RoomsIDs, RoomID),
+  element(RoomIdx, RoomsLocs, RoomLoc),
+  element(RoomIdx, RoomsCaps, RoomCap),
+  element(RoomIdx, RoomsTypes, RoomType),
+  element(RoomIdx, RoomsOccupVars, RoomOccupVar),
+  element(RoomIdx, RoomsCompVars, RoomCompVar),
 
-  % Domain of the room ID and location.
-  member(RoomTuple, Rooms),
-  RoomTuple = (CompRoomID, RoomLoc, RoomCapacity, RoomType, RoomOccup, RoomCompDates),
-
+  fd_dom(RoomOccupVar, RoomOccupDomain), dom_integers(RoomOccupDomain, RoomOccupTimes),
+  maplist(time_to_pair, RoomOccupTimes, RoomOccup),
+  fd_dom(RoomCompVar, RoomCompDomain), dom_integers(RoomCompDomain, RoomCompTimes),
+  maplist(date_to_triple, RoomCompTimes, RoomComp),
   %----------------------------CONSTRAINTS------------------------------------
 
   %----------------------------TIME CONSTRAINTS-------------------------------
@@ -47,37 +57,34 @@ compensate(IN, OUT):-
 
   % Validate the type of the room (if lab) according to the selected room type.
   validate_room_type(RoomType, PrefRoomType),
-
   % Compensation Room should roughly fit the group size.
-  RoomCapacity #>= GroupSize - 10,
-  % % Compensation should not be held in an occupied room.
+  RoomCap #>= GroupSize - 10,
+  % Compensation should not be held in an occupied room.
   is_member_pair(RoomOccup, (CompDay, CompSlot), IsRoomOccup),
   IsRoomOccup #= 0,
   % Compensation should not be held in a room scheduled for another compensation.
-  is_member_triple(RoomCompDates, (CompWeek, CompDay,  CompSlot), IsRoomComp),
+  is_member_triple(RoomComp, (CompWeek, CompDay,  CompSlot), IsRoomComp),
   IsRoomComp #= 0,
 
 
   %----------------------------LABELING------------------------------
   cost(TAOff, GroupOff, CompStart, PrefTimes, Compensation, RoomLoc, PrefRoomLocs, RoomCapacity, GroupSize, Cost),
-  OUT = ('Cost: ', Cost, 'Week: ', CompWeek, 'Day: ', CompDay, 'Slot: ', CompSlot, 'RoomID: ', CompRoomID),
-  labeling([min(Cost)], [CompWeek, CompDay, CompSlot]).
+  OUT = ('Cost: ', Cost, 'Week: ', CompWeek, 'Day: ', CompDay, 'Slot: ', CompSlot, 'RoomID: ', RoomID),
+  labeling([min(Cost)], [CompWeek, CompDay, CompSlot, RoomIdx]).
 
 %------------------------------------------------------------------------------------------------------------------------
                                             % HELPER PREDICATES
 %------------------------------------------------------------------------------------------------------------------------
 
-valid_date(StartWeek, StartDay, CompWeek, CompDay):-
-  ((CompWeek #= StartWeek) #/\ (CompDay #>= StartDay)) #\/
-   (CompWeek #> StartWeek).
 
 %------------------------------------------------------------------------------------------------------------------------
 % Calculate total cost of the output.
 cost(TAOff, GroupOff, CompStart, PrefTimes, Compensation, RoomLoc, PrefLocs, RoomCapacity, GroupSize, C):-
   cost_of_time(CompStart, PrefTimes, TAOff, GroupOff, Compensation, C1),
-  cost_of_loc(PrefLocs, RoomLoc, C2),
+  % cost_of_loc(PrefLocs, RoomLoc, C2),
   % cost_of_capacity(RoomCapacity, GroupSize, C5),
-  C #= C1 + C2.
+  C #= C1.
+
 cost_of_time((StartW, StartD), PrefTimes, TAOff, GroupOff, (CompW, CompD, CompSlot), C):-
   member_pair_idx(I, PrefTimes, (CompD, CompSlot), _),
   date_diff((StartW, StartD),(CompW,CompD), Diff),
@@ -87,69 +94,28 @@ cost_of_time((StartW, StartD), PrefTimes, TAOff, GroupOff, (CompW, CompD, CompSl
   CGroup #= BGroup*5,
   ((((I #= 0) #\/ (Diff #>= 6)) #==> (C #= Diff + CTA + CGroup + 10))  #/\ (((I #> 0) #/\ (Diff #< 6)) #==> (C #= I))).
 
+cost_of_loc(PrefLocs, RoomLoc, C):-
+  member_idx(I, PrefLocs, RoomLoc, _),
+  C #= I*5.
+
+% % Calculate the cost of the room capacity.
+% cost_of_capacity(RoomCapacity, GroupSize, C):-
+%   Diff #= RoomCapacity - GroupSize,
+%   Diff #< 0 #==> C  #= -Diff*10,
+%   Diff #>=0 #==> C #= Diff.
+%------------------------------------------------------------------------------------------------------------------------
+
+valid_date(StartWeek, StartDay, CompWeek, CompDay):-
+  ((CompWeek #= StartWeek) #/\ (CompDay #>= StartDay)) #\/
+   (CompWeek #> StartWeek).
 % If it's a lab, then the selected room type should be a lab too.
 validate_room_type(RoomType, PrefRoomType):-
   (PrefRoomType #= 1) #==> (RoomType #= 1).
-%------------------------------------------------------------------------------------------------------------------------
 
 % Calculate diff between two dates.
 date_diff((W,D),(CompW,CompD),Diff):-
   Diff #= 6*(CompW-W)+(CompD-D).
 %------------------------------------------------------------------------------------------------------------------------
-
-not_member(_,[]).
-not_member(X, [H|T]):-
-  X #\= H,
-  not_member(X, T).
-
-not_member_pair(_, []).
-not_member_pair((X,Y), L ):-
-  L = [(X1,_) | T],
-  X #\= X1,
-  not_member_pair((X,Y) , T).
-not_member_pair((X,Y), L ):-
-  L = [(X1,Y1) | T],
-  X #= X1,
-  Y #\= Y1,
-  not_member_pair((X,Y) , T).
-
-not_member_triple(_,[]).
-not_member_triple((X,Y,Z), L ):-
-  L = [(X1,_,_) | T],
-  X #\= X1,
-  not_member_triple((X,Y,Z) , T).
-not_member_triple((X,Y,Z), L ):-
-  L = [(X1,Y1,_) | T],
-  X #= X1,
-  Y #\= Y1,
-  not_member_triple((X,Y,Z) , T).
-not_member_triple((X,Y,Z), L ):-
-  L = [(X1,Y1,Z1) | T],
-  X #= X1,
-  Y #= Y1,
-  Z #\= Z1,
-  not_member_triple((X,Y,Z) , T).
-%------------------------------------------------------------------------------------------------------------------------
-member_pair(0, L, V):-
-  is_member_pair(L, V, 0).
-member_pair(1, [(D1,S1)|_], (D,S)):-
-  D1 #= D,
-  S1 #= S.
-member_pair(X, [(_,_)|T], (D,S)):-
-  X #> 1,
-  X1 #= X - 1,
-  member_pair(X1, T, (D,S)).
-
-
-room_member(1, [H|_], Room):-
-  Room = (CompRoomID, CompRoomLoc, CompRoomCapacity, CompRoomType, CompRoomOcuup),
-  H = (RoomID, RoomLoc, RoomCapacity, RoomType),
-  RoomID #= CompRoomID, RoomLoc #= CompRoomLoc, RoomCapacity #= CompRoomCapacity, CompRoomType #= RoomType.
-
-room_member(X, [_|T], Room):-
-  X #> 1,
-  X1 #= X - 1,
-  room_member(X1, T, Room).
 
 is_member([], _, 0).
 is_member([H|T], Elem, B):-
@@ -178,33 +144,38 @@ member_idx(I, [H|T], X, B):-
   #/\ (B1 #= 1 #==> I #= 1) #/\ (B1 #= 0 #==> I #= B2*(I1+1)),
   member_idx(I1, T, X, B2).
 
-% B = 1 if elem is in Arr, B = 0 otherwise.
-% is_member(Arr, Elem, B):-
-%   reifiable_element(Idx, Arr, Elem),
-%   (Idx #> 0) #<==> B.
+room_member(RoomTuple, Rooms):-
+  RoomTuple = (RoomID, RoomLoc, RoomCapacity, RoomType),
+  Rooms = [(ID, Loc, Capacity, Type)| T],
+  RoomID #= ID, RoomLoc #= Loc, RoomCapacity #= Capacity, RoomType #= Type.
+room_member(RoomTuple, [ _ | Rooms]):-
+  room_member(RoomTuple, Rooms).
 
-% reifiable_element(Idx, Arr, Elem):-
-%   element(Idx, Arr, Elem).
-% reifiable_element(0, Arr, Elem):-
-%   not_member(Elem, Arr).
+times_to_pairs(Times, Pairs):-
+  maplist(time_to_pair, Times, Pairs).
+time_to_pair(0, (0,0)):-!.
+time_to_pair(T, (D, S)):-
+   D in 1..6, S in 1..5,
+  (D-1)*5 + S #= T.
 
+dates_to_triples(Dates, Pairs):-
+  maplist(date_to_triple, Dates, Pairs).
+date_to_triple(0, (0,0,0)):-!.
+date_to_triple(T, (W, D, S)):-
+  %TODO fix week range
+   W in 1..3, D in 1..6, S in 1..5,
+  (W-1)*5*6 + (D-1)*5 + S #= T.
+%--------------------------------------------------------------------------
+dom_integers(D, Is) :- phrase(dom_integers_(D), Is).
 
-%------------------------------------------------------------------------------------------------------------------------
-%
-% cost_of_dayOff_TA(DaysOff, CompDay, C):-
-%   is_member(DaysOff, CompDay, B),
-%   C #= B*10.
-% cost_of_dayOff_Group(DaysOff, CompDay, C):-
-%   is_member(DaysOff, CompDay, B),
-%   C #= B*5.
+dom_integers_(I)      --> { integer(I) }, [I].
+dom_integers_(L..U)   --> { numlist(L, U, Is) }, Is.
+dom_integers_(D1\/D2) --> dom_integers_(D1), dom_integers_(D2).
 
-
-cost_of_loc(PrefLocs, RoomLoc, C):-
-  member_idx(I, PrefLocs, RoomLoc, _),
-  C #= I * 5.
-
-% Calculate the cost of the room capacity.
-cost_of_capacity(RoomCapacity, GroupSize, C):-
-  Diff #= RoomCapacity - GroupSize,
-  Diff #< 0 #==> C  #= -Diff*10,
-  Diff #>=0 #==> C #= Diff.
+set_domain(Bases, Var) :-
+        make_domain(Bases, Term),
+        Var in Term.
+make_domain([], 0).
+make_domain([H], H):-!.
+make_domain([H | T], '\\/'(H, TDomain)) :-
+      make_domain(T, TDomain).

@@ -68,7 +68,7 @@ compensate(IN, OUT):-
 
 
   %----------------------------LABELING------------------------------
-  cost(TAOff, GroupOff, CompStart, PrefTimes, Compensation, RoomLoc, PrefRoomLocs, RoomCapacity, GroupSize, Cost),
+  cost(TAOff, GroupOff, CompStart, PrefTimes, Compensation, RoomLoc, PrefRoomLocs, RoomCap, GroupSize, Cost),
   OUT = ('Cost: ', Cost, 'Week: ', CompWeek, 'Day: ', CompDay, 'Slot: ', CompSlot, 'RoomID: ', RoomID),
   labeling([min(Cost)], [CompWeek, CompDay, CompSlot, RoomIdx]).
 
@@ -79,11 +79,11 @@ compensate(IN, OUT):-
 
 %------------------------------------------------------------------------------------------------------------------------
 % Calculate total cost of the output.
-cost(TAOff, GroupOff, CompStart, PrefTimes, Compensation, RoomLoc, PrefLocs, RoomCapacity, GroupSize, C):-
-  cost_of_time(CompStart, PrefTimes, TAOff, GroupOff, Compensation, C1),
-  % cost_of_loc(PrefLocs, RoomLoc, C2),
-  % cost_of_capacity(RoomCapacity, GroupSize, C5),
-  C #= C1.
+cost(TAOff, GroupOff, CompStart, PrefTimes, CompensationTime, RoomLoc, PrefLocs, RoomCap, GroupSize, C):-
+  cost_of_time(CompStart, PrefTimes, TAOff, GroupOff, CompensationTime, C1),
+  cost_of_capacity(RoomCap, GroupSize, C2),
+  cost_of_loc(PrefLocs, RoomLoc, C3),
+  C #= C1 + C2 + C3.
 
 cost_of_time((StartW, StartD), PrefTimes, TAOff, GroupOff, (CompW, CompD, CompSlot), C):-
   member_pair_idx(I, PrefTimes, (CompD, CompSlot), _),
@@ -98,11 +98,10 @@ cost_of_loc(PrefLocs, RoomLoc, C):-
   member_idx(I, PrefLocs, RoomLoc, _),
   C #= I*5.
 
-% % Calculate the cost of the room capacity.
-% cost_of_capacity(RoomCapacity, GroupSize, C):-
-%   Diff #= RoomCapacity - GroupSize,
-%   Diff #< 0 #==> C  #= -Diff*10,
-%   Diff #>=0 #==> C #= Diff.
+cost_of_capacity(RoomCapacity, GroupSize, C):-
+  Diff #= RoomCapacity - GroupSize,
+  Diff #< 0 #==> C  #= -Diff*10,
+  Diff #>=0 #==> C #= Diff.
 %------------------------------------------------------------------------------------------------------------------------
 
 valid_date(StartWeek, StartDay, CompWeek, CompDay):-
@@ -143,13 +142,6 @@ member_idx(I, [H|T], X, B):-
   ((H #= X) #<==> B1) #/\ (B #<==> (B2 #\/ B1))
   #/\ (B1 #= 1 #==> I #= 1) #/\ (B1 #= 0 #==> I #= B2*(I1+1)),
   member_idx(I1, T, X, B2).
-
-room_member(RoomTuple, Rooms):-
-  RoomTuple = (RoomID, RoomLoc, RoomCapacity, RoomType),
-  Rooms = [(ID, Loc, Capacity, Type)| T],
-  RoomID #= ID, RoomLoc #= Loc, RoomCapacity #= Capacity, RoomType #= Type.
-room_member(RoomTuple, [ _ | Rooms]):-
-  room_member(RoomTuple, Rooms).
 
 times_to_pairs(Times, Pairs):-
   maplist(time_to_pair, Times, Pairs).

@@ -12,7 +12,7 @@ TA = (TAOccup, TAComp, TAOff),
 Group = (GroupOccup, GroupComp, GroupOff, GroupSize),
 Rooms = [RoomsIDs, RoomsLocs, RoomsCaps, RoomsTypes, RoomsOccupList],
 
-Rooms = [[1,2,3],[2,2,2],[30,20,30],[2,1,1],[[(1,1)], [], [(3,1),(3,2)]], [[],[],[(1,3,3)]]],
+Rooms = [[1,2,3],[2,2,2],[30,40,30],[2,1,1],[[], [(3,1),(3,2)], []], [[],[],[]]],
 TA = ([],[],[]),
 Group = ([],[],[], 40),
 CompStart = (1,3),

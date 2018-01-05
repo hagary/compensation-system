@@ -1,0 +1,7 @@
+
+public class Preprocessing {
+	public static void main(String[] args) throws Exception{
+		//System.out.println(CSVReader.readFile().toString());
+		System.out.println(CSVReader.readStaffFile().toString());
+	}
+}

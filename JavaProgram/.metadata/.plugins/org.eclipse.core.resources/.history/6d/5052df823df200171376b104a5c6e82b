@@ -1,0 +1,23 @@
+import java.util.ArrayList;
+import java.util.Hashtable;
+
+
+public class Preprocessing {
+	public static void main(String[] args) throws Exception{
+		//System.out.println(CSVReader.readFile().toString());
+		System.out.println(CSVReader.readGroupFile().toString());
+		ArrayList<GroupEntry> GE = CSVReader.readGroupFile();
+		Hashtable<String,Group> groupHT = new Hashtable<>();
+		for (GroupEntry groupEntry : GE) {
+			String studyGroup = groupEntry.getStudyGroup();
+			
+			if(!groupHT.containsKey(studyGroup))
+				groupHT.put(studyGroup, new Group(studyGroup,0));
+			
+			WeekDaySlot time = new WeekDaySlot(0, groupEntry.getDay(), groupEntry.getSlot());
+			groupHT.get(studyGroup).getOccupiedSlots().add();
+				
+			
+		}
+	}
+}

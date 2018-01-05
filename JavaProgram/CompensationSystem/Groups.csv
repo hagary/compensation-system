@@ -1,0 +1,106 @@
+group_id,group_name,group_full_name,course_code,course_name,week_day,scd_col,scd_type,session_type_dsc,rsrc_code,resourc_capacity,group_count
+517,DMET L01,DMET 502 DMET L01,DMET 502,Computer Graphics,6,3,MET Digital Media Engineering 5th Semester I,Lecture,C5.306,30,38
+941,5DMET P20,DMET 502 5DMET P20,DMET 502,Computer Graphics,3,4,MET Digital Media Engineering 5th Semester I,Practical,C7.217,20,22
+154,5DMET T20,DMET 502 5DMET T20,DMET 502,Computer Graphics,3,3,MET Digital Media Engineering 5th Semester I,Tutorial,C5.304,29,31
+226,CSEN L01,CSEN 501 CSEN L01,CSEN 501,Data Base I,6,3,MET Computer Science 5th Semester I,Lecture,H13,252,121
+518,5CSEN P10,CSEN 501 5CSEN P10,CSEN 501,Data Base I,6,4,MET Computer Science 5th Semester I,Practical,C6.209,30,24
+723,5CSEN P11,CSEN 501 5CSEN P11,CSEN 501,Data Base I,2,4,MET Computer Science 5th Semester I,Practical,C7.203,22,21
+290,5CSEN P12,CSEN 501 5CSEN P12,CSEN 501,Data Base I,3,4,MET Computer Science 5th Semester I,Practical,C7.203,28,28
+622,5CSEN P13,CSEN 501 5CSEN P13,CSEN 501,Data Base I,3,2,MET Computer Science 5th Semester I,Practical,C7.220,27,23
+842,5CSEN P14,CSEN 501 5CSEN P14,CSEN 501,Data Base I,2,4,MET Computer Science 5th Semester I,Practical,C7.217,22,18
+444,5CSEN T10,CSEN 501 5CSEN T10,CSEN 501,Data Base I,2,3,MET Computer Science 5th Semester I,Tutorial,C5.211,32,24
+911,5CSEN T11,CSEN 501 5CSEN T11,CSEN 501,Data Base I,6,2,MET Computer Science 5th Semester I,Tutorial,C5.102,20,24
+165,5CSEN T12,CSEN 501 5CSEN T12,CSEN 501,Data Base I,2,4,MET Computer Science 5th Semester I,Tutorial,C5.302,26,21
+600,5CSEN T13,CSEN 501 5CSEN T13,CSEN 501,Data Base I,6,2,MET Computer Science 5th Semester I,Tutorial,C5.206,24,15
+207,5CSEN T14,CSEN 501 5CSEN T14,CSEN 501,Data Base I,6,4,MET Computer Science 5th Semester I,Tutorial,C5.208,34,24
+705,CSEN L02,CSEN 501 CSEN L02,CSEN 501,Data Base I,6,4,MET Computer Science 5th Semester II,Lecture,H9,101,119
+242,5CSEN P15,CSEN 501 5CSEN P15,CSEN 501,Data Base I,2,2,MET Computer Science 5th Semester II,Practical,C7.203,26,20
+712,5CSEN P16,CSEN 501 5CSEN P16,CSEN 501,Data Base I,6,3,MET Computer Science 5th Semester II,Practical,C7.201,29,26
+449,5CSEN P17,CSEN 501 5CSEN P17,CSEN 501,Data Base I,2,1,MET Computer Science 5th Semester II,Practical,C7.201,29,17
+288,5CSEN P18,CSEN 501 5CSEN P18,CSEN 501,Data Base I,3,3,MET Computer Science 5th Semester II,Practical,C7.203,22,28
+811,5CSEN P19,CSEN 501 5CSEN P19,CSEN 501,Data Base I,2,2,MET Computer Science 5th Semester II,Practical,C7.217,25,27
+494,5CSEN T15,CSEN 501 5CSEN T15,CSEN 501,Data Base I,3,4,MET Computer Science 5th Semester II,Tutorial,C2.302,23,27
+339,5CSEN T16,CSEN 501 5CSEN T16,CSEN 501,Data Base I,3,3,MET Computer Science 5th Semester II,Tutorial,C5.308,29,25
+342,5CSEN T17,CSEN 501 5CSEN T17,CSEN 501,Data Base I,3,4,MET Computer Science 5th Semester II,Tutorial,C2.309,21,27
+31,5CSEN T18,CSEN 501 5CSEN T18,CSEN 501,Data Base I,2,2,MET Computer Science 5th Semester II,Tutorial,C2.312,27,26
+563,5CSEN T19,CSEN 501 5CSEN T19,CSEN 501,Data Base I,6,3,MET Computer Science 5th Semester II,Tutorial,C5.305,24,28
+243,DMET L01,CSEN 501 DMET L01,CSEN 501,Data Base I,6,4,MET Digital Media Engineering 5th Semester I,Lecture,H9,104,33
+899,5DMET P20,CSEN 501 5DMET P20,CSEN 501,Data Base I,3,1,MET Digital Media Engineering 5th Semester I,Practical,C7.303-,27,27
+512,5DMET T20,CSEN 501 5DMET T20,CSEN 501,Data Base I,2,4,MET Digital Media Engineering 5th Semester I,Tutorial,C5.304,28,18
+699,CSEN L01,CSEN 605 CSEN L01,CSEN 605,Digital System Design ,2,1,MET Computer Science 5th Semester I,Lecture,H11,100,125
+121,5CSEN T10,CSEN 605 5CSEN T10,CSEN 605,Digital System Design ,1,1,MET Computer Science 5th Semester I,Tutorial,C7.217,30,28
+589,5CSEN T11,CSEN 605 5CSEN T11,CSEN 605,Digital System Design ,2,3,MET Computer Science 5th Semester I,Tutorial,C7.203,27,20
+369,5CSEN T12,CSEN 605 5CSEN T12,CSEN 605,Digital System Design ,3,2,MET Computer Science 5th Semester I,Tutorial,C7.217,28,22
+369,5CSEN T12,CSEN 605 5CSEN T12,CSEN 605,Digital System Design ,3,2,MET Computer Science 5th Semester I,Tutorial,C7.217,28,19
+132,5CSEN T13,CSEN 605 5CSEN T13,CSEN 605,Digital System Design ,2,5,MET Computer Science 5th Semester I,Tutorial,C7.217,29,23
+132,5CSEN T13,CSEN 605 5CSEN T13,CSEN 605,Digital System Design ,2,5,MET Computer Science 5th Semester I,Tutorial,C7.217,20,24
+54,5CSEN T14,CSEN 605 5CSEN T14,CSEN 605,Digital System Design ,6,2,MET Computer Science 5th Semester I,Tutorial,C6.209,24,25
+54,5CSEN T14,CSEN 605 5CSEN T14,CSEN 605,Digital System Design ,6,2,MET Computer Science 5th Semester I,Tutorial,C6.209,24,30
+722,CSEN L02,CSEN 605 CSEN L02,CSEN 605,Digital System Design ,3,2,MET Computer Science 5th Semester II,Lecture,H9,102,122
+120,5CSEN T15,CSEN 605 5CSEN T15,CSEN 605,Digital System Design ,2,1,MET Computer Science 5th Semester II,Tutorial,C7.203,24,27
+307,5CSEN T16,CSEN 605 5CSEN T16,CSEN 605,Digital System Design ,3,4,MET Computer Science 5th Semester II,Tutorial,C7.220,25,27
+952,5CSEN T17,CSEN 605 5CSEN T17,CSEN 605,Digital System Design ,2,4,MET Computer Science 5th Semester II,Tutorial,C7.303-,23,21
+168,5CSEN T18,CSEN 605 5CSEN T18,CSEN 605,Digital System Design ,6,3,MET Computer Science 5th Semester II,Tutorial,C7.203,23,24
+168,5CSEN T18,CSEN 605 5CSEN T18,CSEN 605,Digital System Design ,6,3,MET Computer Science 5th Semester II,Tutorial,C7.203,20,29
+991,5CSEN T19,CSEN 605 5CSEN T19,CSEN 605,Digital System Design ,1,2,MET Computer Science 5th Semester II,Tutorial,C7.201,23,20
+786,DMET L01,CSEN 605 DMET L01,CSEN 605,Digital System Design ,3,2,MET Digital Media Engineering 5th Semester I,Lecture,H9,98,21
+327,5DMET T20,CSEN 605 5DMET T20,CSEN 605,Digital System Design ,1,4,MET Digital Media Engineering 5th Semester I,Tutorial,C7.217,28,20
+328,CSEN L01,CSEN 503 CSEN L01,CSEN 503,Introduction To Communication Networks,3,3,MET Computer Science 5th Semester I,Lecture,H9,95,123
+328,CSEN L01,CSEN 503 CSEN L01,CSEN 503,Introduction To Communication Networks,3,3,MET Computer Science 5th Semester I,Lecture,H9,97,120
+718,5CSEN T10,CSEN 503 5CSEN T10,CSEN 503,Introduction To Communication Networks,3,4,MET Computer Science 5th Semester I,Tutorial,C5.311,29,26
+500,5CSEN T11,CSEN 503 5CSEN T11,CSEN 503,Introduction To Communication Networks,2,5,MET Computer Science 5th Semester I,Tutorial,C5.305,29,24
+908,5CSEN T12,CSEN 503 5CSEN T12,CSEN 503,Introduction To Communication Networks,1,1,MET Computer Science 5th Semester I,Tutorial,C3.101,30,25
+183,5CSEN T13,CSEN 503 5CSEN T13,CSEN 503,Introduction To Communication Networks,2,3,MET Computer Science 5th Semester I,Tutorial,C5.102,30,20
+537,5CSEN T14,CSEN 503 5CSEN T14,CSEN 503,Introduction To Communication Networks,3,2,MET Computer Science 5th Semester I,Tutorial,C5.305,28,27
+122,CSEN L02,CSEN 503 CSEN L02,CSEN 503,Introduction To Communication Networks,6,2,MET Computer Science 5th Semester II,Lecture,H9,95,110
+122,CSEN L02,CSEN 503 CSEN L02,CSEN 503,Introduction To Communication Networks,6,2,MET Computer Science 5th Semester II,Lecture,H9,99,116
+881,5CSEN T15,CSEN 503 5CSEN T15,CSEN 503,Introduction To Communication Networks,1,2,MET Computer Science 5th Semester II,Tutorial,C5.204,32,24
+302,5CSEN T16,CSEN 503 5CSEN T16,CSEN 503,Introduction To Communication Networks,1,4,MET Computer Science 5th Semester II,Tutorial,C6.204,25,25
+373,5CSEN T17,CSEN 503 5CSEN T17,CSEN 503,Introduction To Communication Networks,6,3,MET Computer Science 5th Semester II,Tutorial,C6.204,24,30
+11,5CSEN T18,CSEN 503 5CSEN T18,CSEN 503,Introduction To Communication Networks,2,4,MET Computer Science 5th Semester II,Tutorial,C6.203,29,21
+934,5CSEN T19,CSEN 503 5CSEN T19,CSEN 503,Introduction To Communication Networks,3,3,MET Computer Science 5th Semester II,Tutorial,C5.211,24,23
+430,DMET L01,CSEN 503 DMET L01,CSEN 503,Introduction To Communication Networks,6,2,MET Digital Media Engineering 5th Semester I,Lecture,H9,99,26
+430,DMET L01,CSEN 503 DMET L01,CSEN 503,Introduction To Communication Networks,6,2,MET Digital Media Engineering 5th Semester I,Lecture,H9,96,30
+659,5DMET T20,CSEN 503 5DMET T20,CSEN 503,Introduction To Communication Networks,2,2,MET Digital Media Engineering 5th Semester I,Tutorial,B2.307,27,23
+348,CSEN L01,DMET 501 CSEN L01,DMET 501,Introduction to media Engineering,1,2,MET Computer Science 5th Semester I,Lecture,H8,99,130
+180,5CSEN T10,DMET 501 5CSEN T10,DMET 501,Introduction to media Engineering,2,4,MET Computer Science 5th Semester I,Tutorial,C5.301,25,21
+835,5CSEN T11,DMET 501 5CSEN T11,DMET 501,Introduction to media Engineering,3,2,MET Computer Science 5th Semester I,Tutorial,C5.202,26,28
+937,5CSEN T12,DMET 501 5CSEN T12,DMET 501,Introduction to media Engineering,6,4,MET Computer Science 5th Semester I,Tutorial,C3.332,29,20
+189,5CSEN T13,DMET 501 5CSEN T13,DMET 501,Introduction to media Engineering,1,1,MET Computer Science 5th Semester I,Tutorial,C3.331,26,23
+857,5CSEN T14,DMET 501 5CSEN T14,DMET 501,Introduction to media Engineering,3,4,MET Computer Science 5th Semester I,Tutorial,C2.306,28,26
+356,CSEN L02,DMET 501 CSEN L02,DMET 501,Introduction to media Engineering,1,1,MET Computer Science 5th Semester II,Lecture,H8,95,112
+233,5CSEN T15,DMET 501 5CSEN T15,DMET 501,Introduction to media Engineering,6,3,MET Computer Science 5th Semester II,Tutorial,C6.104,22,20
+163,5CSEN T16,DMET 501 5CSEN T16,DMET 501,Introduction to media Engineering,2,1,MET Computer Science 5th Semester II,Tutorial,C6.204,29,23
+522,5CSEN T17,DMET 501 5CSEN T17,DMET 501,Introduction to media Engineering,2,2,MET Computer Science 5th Semester II,Tutorial,C6.204,26,23
+432,5CSEN T18,DMET 501 5CSEN T18,DMET 501,Introduction to media Engineering,1,2,MET Computer Science 5th Semester II,Tutorial,C6.204,21,29
+406,5CSEN T19,DMET 501 5CSEN T19,DMET 501,Introduction to media Engineering,3,4,MET Computer Science 5th Semester II,Tutorial,C2.308,29,24
+982,DMET L01,DMET 501 DMET L01,DMET 501,Introduction to media Engineering,1,1,MET Digital Media Engineering 5th Semester I,Lecture,H8,98,30
+571,5DMET T20,DMET 501 5DMET T20,DMET 501,Introduction to media Engineering,2,5,MET Digital Media Engineering 5th Semester I,Tutorial,C5.306,21,29
+37,CSEN L01,MATH 501 CSEN L01,MATH 501,Mathematics V (Discrete Math),2,2,MET Computer Science 5th Semester I,Lecture,H11,102,117
+683,5CSEN T10,MATH 501 5CSEN T10,MATH 501,Mathematics V (Discrete Math),3,2,MET Computer Science 5th Semester I,Tutorial,C3.332,29,26
+260,5CSEN T11,MATH 501 5CSEN T11,MATH 501,Mathematics V (Discrete Math),1,1,MET Computer Science 5th Semester I,Tutorial,C5.104,28,30
+360,5CSEN T12,MATH 501 5CSEN T12,MATH 501,Mathematics V (Discrete Math),2,5,MET Computer Science 5th Semester I,Tutorial,C5.102,26,24
+990,5CSEN T13,MATH 501 5CSEN T13,MATH 501,Mathematics V (Discrete Math),3,4,MET Computer Science 5th Semester I,Tutorial,C3.332,24,23
+760,5CSEN T14,MATH 501 5CSEN T14,MATH 501,Mathematics V (Discrete Math),1,1,MET Computer Science 5th Semester I,Tutorial,C5.202,24,22
+244,CSEN L02,MATH 501 CSEN L02,MATH 501,Mathematics V (Discrete Math),2,3,MET Computer Science 5th Semester II,Lecture,H11,101,110
+261,5CSEN T15,MATH 501 5CSEN T15,MATH 501,Mathematics V (Discrete Math),2,4,MET Computer Science 5th Semester II,Tutorial,C5.306,27,22
+200,5CSEN T16,MATH 501 5CSEN T16,MATH 501,Mathematics V (Discrete Math),2,2,MET Computer Science 5th Semester II,Tutorial,C2.306,34,23
+148,5CSEN T17,MATH 501 5CSEN T17,MATH 501,Mathematics V (Discrete Math),1,4,MET Computer Science 5th Semester II,Tutorial,C6.203,26,20
+850,5CSEN T18,MATH 501 5CSEN T18,MATH 501,Mathematics V (Discrete Math),1,4,MET Computer Science 5th Semester II,Tutorial,C5.208,29,26
+969,5CSEN T19,MATH 501 5CSEN T19,MATH 501,Mathematics V (Discrete Math),2,1,MET Computer Science 5th Semester II,Tutorial,C5.208,24,23
+887,DMET L01,MATH 501 DMET L01,MATH 501,Mathematics V (Discrete Math),2,3,MET Digital Media Engineering 5th Semester I,Lecture,H11,100,25
+788,5DMET T20,MATH 501 5DMET T20,MATH 501,Mathematics V (Discrete Math),1,2,MET Digital Media Engineering 5th Semester I,Tutorial,C3.331,29,27
+540,CSEN L01,CSEN 502 CSEN L01,CSEN 502,Theory of Computation,3,1,MET Computer Science 5th Semester I,Lecture,H13,245,137
+540,CSEN L01,CSEN 502 CSEN L01,CSEN 502,Theory of Computation,1,3,MET Computer Science 5th Semester I,Lecture,H12,251,144
+45,5CSEN T10,CSEN 502 5CSEN T10,CSEN 502,Theory of Computation,6,2,MET Computer Science 5th Semester I,Tutorial,C3.305,26,28
+503,5CSEN T11,CSEN 502 5CSEN T11,CSEN 502,Theory of Computation,3,4,MET Computer Science 5th Semester I,Tutorial,C5.302,24,30
+344,5CSEN T12,CSEN 502 5CSEN T12,CSEN 502,Theory of Computation,2,3,MET Computer Science 5th Semester I,Tutorial,C5.104,23,23
+116,5CSEN T13,CSEN 502 5CSEN T13,CSEN 502,Theory of Computation,6,4,MET Computer Science 5th Semester I,Tutorial,C5.104,27,25
+644,5CSEN T14,CSEN 502 5CSEN T14,CSEN 502,Theory of Computation,1,4,MET Computer Science 5th Semester I,Tutorial,C5.112,30,21
+473,CSEN L02,CSEN 502 CSEN L02,CSEN 502,Theory of Computation,3,1,MET Computer Science 5th Semester II,Lecture,H13,255,108
+473,CSEN L02,CSEN 502 CSEN L02,CSEN 502,Theory of Computation,1,3,MET Computer Science 5th Semester II,Lecture,H12,255,106
+117,5CSEN T15,CSEN 502 5CSEN T15,CSEN 502,Theory of Computation,3,3,MET Computer Science 5th Semester II,Tutorial,C6.204,25,30
+90,5CSEN T16,CSEN 502 5CSEN T16,CSEN 502,Theory of Computation,2,4,MET Computer Science 5th Semester II,Tutorial,C6.104,21,27
+574,5CSEN T17,CSEN 502 5CSEN T17,CSEN 502,Theory of Computation,1,2,MET Computer Science 5th Semester II,Tutorial,C5.311,20,25
+754,5CSEN T18,CSEN 502 5CSEN T18,CSEN 502,Theory of Computation,2,1,MET Computer Science 5th Semester II,Tutorial,C6.104,29,25
+686,5CSEN T19,CSEN 502 5CSEN T19,CSEN 502,Theory of Computation,2,4,MET Computer Science 5th Semester II,Tutorial,C6.204,27,26

@@ -1,0 +1,6 @@
+
+public class GroupEntry {
+	private int groupID,
+	private String groupName,
+	
+}

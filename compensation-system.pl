@@ -9,28 +9,24 @@ compensate(IN, OUT):-
   Group = (GroupOccup, GroupComp, GroupOff, GroupSize),
   CompStart = (CompStWeek, CompStDay),
   Compensation = (CompWeek, CompDay, CompSlot),
-  Rooms = [RoomsIDs, RoomsLocs, RoomsCaps, RoomsTypes, RoomsOccupList, RoomsCompList],
-  maplist(times_to_pairs, RoomsOccupTimes, RoomsOccupList),
-  maplist(set_domain, RoomsOccupTimes, RoomsOccupVars),
-  maplist(dates_to_triples, RoomsCompTimes, RoomsCompList),
-  maplist(set_domain, RoomsCompTimes, RoomsCompVars),
+  Rooms = [RoomsIDs, RoomsLocs, RoomsCaps, RoomsTypes, RoomsOccupLists, RoomsCompList],
+  %TODO adjust slots count to 30
+  SlotsCount = 15,
+  maplist(binary_number(SlotsCount), RoomsOccupLists, RoomsOccups),
   %----------------------------DOMAINS------------------------------
 
-  %TODO adjust back week range.
+  %TODO adjust back week and day domains.
   CompWeek in 1..3,
   CompDay in 1..6,
-  CompSlot in 1..5,
+  CompSlot in 1..3,
   element(RoomIdx, RoomsIDs, RoomID),
   element(RoomIdx, RoomsLocs, RoomLoc),
   element(RoomIdx, RoomsCaps, RoomCap),
   element(RoomIdx, RoomsTypes, RoomType),
-  element(RoomIdx, RoomsOccupVars, RoomOccupVar),
-  element(RoomIdx, RoomsCompVars, RoomCompVar),
+  element(RoomIdx, RoomsOccups, RoomOccup),
 
-  fd_dom(RoomOccupVar, RoomOccupDomain), dom_integers(RoomOccupDomain, RoomOccupTimes),
-  maplist(time_to_pair, RoomOccupTimes, RoomOccup),
-  fd_dom(RoomCompVar, RoomCompDomain), dom_integers(RoomCompDomain, RoomCompTimes),
-  maplist(date_to_triple, RoomCompTimes, RoomComp),
+  binary_number(SlotsCount, RoomOccupList, RoomOccup),
+
   %----------------------------CONSTRAINTS------------------------------------
 
   %----------------------------TIME CONSTRAINTS-------------------------------
@@ -60,11 +56,14 @@ compensate(IN, OUT):-
   % Compensation Room should roughly fit the group size.
   RoomCap #>= GroupSize - 10,
   % Compensation should not be held in an occupied room.
-  is_member_pair(RoomOccup, (CompDay, CompSlot), IsRoomOccup),
+  % is_member_pair(RoomOccup, (CompDay, CompSlot), IsRoomOccup),
+  % IsRoomOccup #= 0,
+  time_to_pair(CompTime, (CompDay, CompSlot)), write(CompTime),
+  element(CompTime, RoomOccupList, IsRoomOccup),
   IsRoomOccup #= 0,
-  % Compensation should not be held in a room scheduled for another compensation.
-  is_member_triple(RoomComp, (CompWeek, CompDay,  CompSlot), IsRoomComp),
-  IsRoomComp #= 0,
+  % % Compensation should not be held in a room scheduled for another compensation.
+  % is_member_triple(RoomComp, (CompWeek, CompDay,  CompSlot), IsRoomComp),
+  % IsRoomComp #= 0,
 
 
   %----------------------------LABELING------------------------------
@@ -100,8 +99,8 @@ cost_of_loc(PrefLocs, RoomLoc, C):-
 
 cost_of_capacity(RoomCapacity, GroupSize, C):-
   Diff #= RoomCapacity - GroupSize,
-  Diff #< 0 #==> C  #= -Diff*10,
-  Diff #>=0 #==> C #= Diff.
+  Diff #< 0 #==> C  #= - Diff,
+  Diff #>= 0 #==> C #= Diff + 5.
 %------------------------------------------------------------------------------------------------------------------------
 
 valid_date(StartWeek, StartDay, CompWeek, CompDay):-
@@ -171,3 +170,14 @@ make_domain([], 0).
 make_domain([H], H):-!.
 make_domain([H | T], '\\/'(H, TDomain)) :-
       make_domain(T, TDomain).
+
+binary_number(BitCount, Bits, N) :-
+    binary_number_min(BitCount, Bits, 0, N, N).
+
+binary_number_min(0, [], N, N, _M):-!.
+binary_number_min(BitCount, L, N0, N, M) :-
+    L = [Bit|Bits], length(L, BitCount), BC1 #= BitCount - 1,
+    Bit in 0..1,
+    N1 #= N0*2 + Bit,
+    M #>= N1,
+    binary_number_min(BC1, Bits, N1, N, M).

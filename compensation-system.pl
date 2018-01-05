@@ -9,7 +9,7 @@ compensate(IN, OUT):-
   Group = (GroupOccup, GroupComp, GroupOff, GroupSize),
   CompStart = (CompStWeek, CompStDay),
   Compensation = (CompWeek, CompDay, CompSlot),
-  Rooms = [RoomsIDs, RoomsLocs, RoomsCaps, RoomsTypes, RoomsOccupLists, RoomsCompList],
+  Rooms = [RoomsIDs, RoomsLocs, RoomsCaps, RoomsTypes, RoomsOccupLists, RoomsCompLists],
   %TODO adjust slots count to 30
   SlotsCount = 15,
   maplist(binary_number(SlotsCount), RoomsOccupLists, RoomsOccups),
@@ -58,7 +58,7 @@ compensate(IN, OUT):-
   % Compensation should not be held in an occupied room.
   % is_member_pair(RoomOccup, (CompDay, CompSlot), IsRoomOccup),
   % IsRoomOccup #= 0,
-  time_to_pair(CompTime, (CompDay, CompSlot)), write(CompTime),
+  time_to_pair(CompTime, (CompDay, CompSlot)),
   element(CompTime, RoomOccupList, IsRoomOccup),
   IsRoomOccup #= 0,
   % % Compensation should not be held in a room scheduled for another compensation.
@@ -142,15 +142,11 @@ member_idx(I, [H|T], X, B):-
   #/\ (B1 #= 1 #==> I #= 1) #/\ (B1 #= 0 #==> I #= B2*(I1+1)),
   member_idx(I1, T, X, B2).
 
-times_to_pairs(Times, Pairs):-
-  maplist(time_to_pair, Times, Pairs).
 time_to_pair(0, (0,0)):-!.
 time_to_pair(T, (D, S)):-
    D in 1..6, S in 1..5,
   (D-1)*5 + S #= T.
 
-dates_to_triples(Dates, Pairs):-
-  maplist(date_to_triple, Dates, Pairs).
 date_to_triple(0, (0,0,0)):-!.
 date_to_triple(T, (W, D, S)):-
   %TODO fix week range

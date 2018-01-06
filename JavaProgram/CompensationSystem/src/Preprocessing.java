@@ -1,3 +1,4 @@
+import java.nio.channels.SeekableByteChannel;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Map.Entry;
@@ -8,10 +9,12 @@ public class Preprocessing {
 	public static Hashtable<String,Group> groupHT;
 	public static Hashtable<String,Staff> staffHT;
 	public static Hashtable<String,Staff> tutHT;
+	public static Hashtable<String,Room> roomHT;
 	public static Hashtable<String, ArrayList<String>> TutorialGroup;
 	public static Hashtable<String,ArrayList<WeekDaySlot>> groupTutorialSchedule;
 	public static ArrayList<GroupEntry> GE;
 	public static ArrayList<StaffEntry> SE;
+	public static ArrayList<WeekDaySlot> officialHolidays;
 
 	
 	public static void main(String[] args) throws Exception{
@@ -20,6 +23,7 @@ public class Preprocessing {
 		 groupHT = new Hashtable<>();
 		 staffHT = new Hashtable<>();
 		 tutHT = new Hashtable<String, Staff>(); 
+		 roomHT = new Hashtable<String, Room>(); 
 		 TutorialGroup = new Hashtable<String, ArrayList<String>>();
 		 groupTutorialSchedule = new Hashtable<String, ArrayList<WeekDaySlot>>();
 		 processTutorialGroup();
@@ -28,11 +32,16 @@ public class Preprocessing {
 		 processStaff();
 		 staffDaysOff();
 		 groupDaysOff();
-		 System.out.println(groupHT);
+		 System.out.println(roomHT);
 	}
 	
 	
+	public static void getOfficialHoildays(ArrayList<WeekDaySlot> offHolidays ){
+		officialHolidays = offHolidays;
+	}
 	
+	
+	//calculate the off days of the stuff
 	public static void staffDaysOff(){
 		for (Entry<String, Staff> staffEntry :staffHT.entrySet()) {
 			ArrayList<Integer> days = new ArrayList<Integer>();
@@ -48,10 +57,11 @@ public class Preprocessing {
 		}
 	}
 	
+	//calculate the off days of each group
 	public static void groupDaysOff(){
 		for (Entry<String,Group> groupEntry : groupHT.entrySet()) {
 			ArrayList<Integer> days = new ArrayList<Integer>();
-			ArrayList<WeekDaySlot> occup =groupEntry.getValue().getOccupiedSlots();
+			ArrayList<WeekDaySlot> occup = groupEntry.getValue().getOccupiedSlots();
 			for (WeekDaySlot weekDaySlot : occup) {
 				if(!days.contains(weekDaySlot.day))
 					days.add(weekDaySlot.day);
@@ -136,11 +146,52 @@ public class Preprocessing {
 				    groupHT.get(key).getOccupiedSlots().add(time);
 			}
 		  }	
+			
+			// fill the occupied list of the rooms and get its location, type and capacity
+			String roomID = groupEntry.getRoomName();
+			int capacity = groupEntry.getRoomCapacity();
+			if(!roomHT.containsKey(roomID)){
+				String sessionType = groupEntry.getSessionType();
+				int roomType = getRoomType(sessionType);
+				int roomLoc = getRoomLoc(roomID);
+				roomHT.put(roomID, new Room(roomID,capacity,roomLoc,roomType));
+			}else{
+				int maxCapacity = Math.max(roomHT.get(roomID).getCapacity(),capacity);
+				roomHT.get(roomID).setCapacity(maxCapacity);
+			}
+			roomHT.get(roomID).getOccupiedSlots().add(time);		
 		}
 	}
 
 	
+	public static int getRoomLoc(String RoomID){
+		char firstChar = RoomID.charAt(0);
+		switch(firstChar){
+		case'B': return 1;
+		case'C': return 2;
+		case'D': return 3;
+		case'H': return(getLecLoc(RoomID));		
+		default: return 0;		
+		}
+	}
 	
+	public static int getLecLoc(String lectureLoc){
+		int lecNum = Integer.parseInt(lectureLoc.substring(1));
+		if(lecNum < 8)
+		return 1;
+		if(lecNum < 15)
+		return 2;
+		return 3;
+	}
+	
+	public static int getRoomType(String SessionType){
+		switch(SessionType){
+			case"Practical": return 1;
+			case"Tutorial": return 2;
+			case"Lecture": return 3;
+			default: return 0;
+		}
+	}
 	
 	
 	//check if the group name is lecture or tutorial

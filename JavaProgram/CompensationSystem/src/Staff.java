@@ -18,6 +18,7 @@ public class Staff {
 		ID = iD;
 		this.isLecturer = isLecturer;
 		occupiedSlots = new ArrayList<WeekDaySlot>();
+		compDates = new ArrayList<WeekDaySlot>();
 		daysOff = new ArrayList<Integer>();
 		tutorials = new ArrayList<String>();
 	}

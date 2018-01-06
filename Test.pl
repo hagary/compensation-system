@@ -1,20 +1,26 @@
-TA = ([(1,2),(1,3),(1,5),(2,3),(2,4),(3,1),(3,2),(4,4),(4,5)],[],[5,6]).
-Group = ([(1,3),(1,5),(2,1),(2,2),(2,4),(4,2),(4,3),(4,5)],[],[3,5],35).
-Rooms = [(1,1,[(1,1),(1,3),(2,3),(2,4),(3,4),(3,5),(4,2)],[],25,2),(2,1,[(1,1),(1,3),(2,3),(2,4),(3,4),(3,5),(4,2)],[],25,1),(3,3,[(1,2),(1,3),(1,4),(2,1),(2,2),(2,4),(4,2),(5,3)],[],20,2),(4,2,[(1,3),(1,5),(2,1),(2,4),(2,5),(3,2),(3,3),(4,2),(4,3),(4,4)],[],35,2)].
-CompStart = (2,2).
-Preference = ([(4,3)],[2,3,1])
-
-compensate((TA,Group,2,CompStart,Preference,Rooms,[]),OUT).
-RoomTuple = (CompRoomID, RoomLoc, RoomCapacity, RoomType),
-
-IN = (TA, Group, CompStart, Preferences, Holidays,Pref),
+% Sample Query 1
 TA = (TAOccup, TAComp, TAOff),
-Group = (GroupOccup, GroupComp, GroupOff, GroupSize),
-Rooms = [RoomsIDs, RoomsLocs, RoomsCaps, RoomsTypes, RoomsOccupList, RoomsCompList],
+TAOccup = [(1,3)], TAComp = [(1,1,4)], TAOff = [],
 
-Rooms = [[1,2,3],[2,2,2],[30,40,30],[2,1,1],[[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[1,0,1,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]], []],
-TA = ([],[],[]),
-Group = ([],[],[], 40),
+Group = (GroupOccup, GroupComp, GroupOff, GroupSize),
+GroupOccup = [(2,1)], GroupComp = [(1,2,2)], GroupOff = [], GroupSize = 40,
+
 CompStart = (1,1),
-Preferences = [(1,1)],
-compensate((TA, Group, CompStart, Preferences, [], Rooms, 1, [2,1,3]), OUT).
+
+Rooms = [RoomsIDs, RoomsLocs, RoomsCaps, RoomsTypes, RoomsOccupLists, RoomsCompLists],
+RoomsIDs = [1,2,3],
+RoomsLocs = [2,2,2],
+RoomsCaps = [30,40,30],
+RoomsTypes = [2,1,3],
+RoomsOccupLists = [0,512,0],
+RoomsCompLists = [[0,256,0],[0,0,0],[10,0,0]],
+
+Preferences = (PrefTimes, PrefRoomType, PrefRoomLocs),
+PrefTimes = [(1,1)],
+PrefRoomType = 1,
+PrefRoomLocs = [2,1,3],
+
+Holidays = [(2,1)],
+
+IN = (TA, Group, CompStart, Holidays, Rooms, Preferences),
+compensate(IN, OUT).

@@ -10,23 +10,36 @@ import java.util.ArrayList;
 		this.day = day;
 		this.slot = slot;
 	}
+	 
+	 @Override
+		public String toString() {
+			return "week: " + week + ", day: " + day + ", slot: " + slot ;
+		}
 }
 
 
 public class Group {
 	String studyGroup;
-	int tutNum;
+	String tutNum;
 	ArrayList<WeekDaySlot> occupiedSlots; 
 	ArrayList<Integer> daysOff;
-	public Group(String studyGroup, int tutNum) {
+	ArrayList<WeekDaySlot> compDates;
+
+	public Group(String studyGroup, String tutID) {
 		super();
 		occupiedSlots = new ArrayList<WeekDaySlot>();
 		daysOff = new ArrayList<Integer>();
 		this.studyGroup = studyGroup;
-		this.tutNum = tutNum;
+		this.tutNum = tutID;
 	}
-	ArrayList<WeekDaySlot> compDates;
 	
+	
+	@Override
+	public String toString() {
+		return "Group [studyGroup=" + studyGroup + ", tutNum=" + tutNum
+				+ ", slotsNum=  " + occupiedSlots.size() + ", occupiedSlots=" + occupiedSlots + ", daysOff=" + daysOff
+				+ ", compDates=" + compDates + "]";
+	}
 	
 	public String getStudyGroup() {
 		return studyGroup;
@@ -34,10 +47,10 @@ public class Group {
 	public void setStudyGroup(String studyGroup) {
 		this.studyGroup = studyGroup;
 	}
-	public int getTutNum() {
+	public String getTutNum() {
 		return tutNum;
 	}
-	public void setTutNum(int tutNum) {
+	public void setTutNum(String tutNum) {
 		this.tutNum = tutNum;
 	}
 	public ArrayList<WeekDaySlot> getOccupiedSlots() {

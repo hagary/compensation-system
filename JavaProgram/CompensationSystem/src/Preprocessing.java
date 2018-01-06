@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.Map.Entry;
 
 
 public class Preprocessing {
@@ -25,10 +26,42 @@ public class Preprocessing {
 		 processLectures();
 		 processTutorials();
 		 processStaff();
+		 staffDaysOff();
+		 groupDaysOff();
 		 System.out.println(groupHT);
 	}
 	
 	
+	
+	public static void staffDaysOff(){
+		for (Entry<String, Staff> staffEntry :staffHT.entrySet()) {
+			ArrayList<Integer> days = new ArrayList<Integer>();
+			ArrayList<WeekDaySlot> occup = staffEntry.getValue().getOccupiedSlots();
+			for (WeekDaySlot weekDaySlot : occup) {
+				if(!days.contains(weekDaySlot.day))
+					days.add(weekDaySlot.day);
+			}
+			for (int i = 1; i < 8; i++) {
+				if(!days.contains(i))
+					staffHT.get(staffEntry.getKey()).getDaysOff().add(i);
+			}
+		}
+	}
+	
+	public static void groupDaysOff(){
+		for (Entry<String,Group> groupEntry : groupHT.entrySet()) {
+			ArrayList<Integer> days = new ArrayList<Integer>();
+			ArrayList<WeekDaySlot> occup =groupEntry.getValue().getOccupiedSlots();
+			for (WeekDaySlot weekDaySlot : occup) {
+				if(!days.contains(weekDaySlot.day))
+					days.add(weekDaySlot.day);
+			}
+			for (int i = 1; i < 8; i++) {
+				if(!days.contains(i))
+					groupHT.get(groupEntry.getKey()).getDaysOff().add(i);
+			}
+		}
+	}
 	
 	//process the occupied slots of the staff 
 	public static void processStaff(){

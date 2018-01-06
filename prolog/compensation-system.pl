@@ -18,8 +18,8 @@ compensate(IN, OUT):-
 
   %----------------------------DOMAINS------------------------------------------
 
-  WeeksCount = 3,
-  DaysCount = 2,
+  WeeksCount = 16,
+  DaysCount = 6,
   SlotsCount = 5,
   WeeklySlotsCount is DaysCount*SlotsCount,
   length(RoomsCompsEachWeek, WeeksCount),

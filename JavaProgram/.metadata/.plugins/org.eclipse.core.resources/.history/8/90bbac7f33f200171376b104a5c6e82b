@@ -1,9 +1,0 @@
-import java.nio.file.Path;
-
-
-public class CSVReader {
-
-	
-	Path pathToFile = Paths.get("Groups.scv");
-	
-}

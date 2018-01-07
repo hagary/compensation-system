@@ -1,4 +1,5 @@
 :- use_module(library(clpfd)).
+:- use_module(library(sgml_write)).
 %----------------------------NUMBERING CODE-------------------------------------
 % Locations: [Bs->1, Cs->2, Ds->3]
 % Room Types: [lab->1, tut->2, lec->3]
@@ -88,13 +89,20 @@ compensate(IN, OUT):-
   PrefRoomLocs, RoomCap, GroupSize, Cost),
   OUT = ('Cost: ', Cost, 'Week: ', CompWeek, 'Day: ', CompDay, 'Slot: ',
   CompSlot, 'RoomID: ', RoomID),
-  labeling([min(Cost)], [CompWeek, CompDay, CompSlot, RoomIdx]).
+  labeling([min(Cost)], [CompWeek, CompDay, CompSlot, RoomIdx]),
 
+  %----------------------------OUTPUT-------------------------------------------
+  open('output.xml', write, Stream),
+  write_result(Stream, Compensation, RoomID),
+  close(Stream).
 %----------------------------END OF MAIN PREDICATE------------------------------
 
 %-------------------------------------------------------------------------------
                               % HELPER PREDICATES
 %-------------------------------------------------------------------------------
+write_result(Stream, (W,D,S), RoomID):-
+  Out = [element(week, [], [W]), element(day, [], [D]), element(slot, [], [S]), element(room, [], [RoomID])],
+  xml_write(Stream, Out, []).
 
 %--------------------------------COST PREDICATES--------------------------------
 

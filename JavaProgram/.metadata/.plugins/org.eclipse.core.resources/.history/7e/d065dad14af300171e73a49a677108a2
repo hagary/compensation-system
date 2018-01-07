@@ -331,7 +331,7 @@ public class Preprocessing {
     		slots[slotNum] = 1;
     	}
 		for (int j = 0; j < slots.length-1; j++) {
-			mapInt += Math.pow(2, j)*slots[30-j];
+			mapInt += Math.pow(2, j)*slots[j+1];
 		}
 		return mapInt;
 	}

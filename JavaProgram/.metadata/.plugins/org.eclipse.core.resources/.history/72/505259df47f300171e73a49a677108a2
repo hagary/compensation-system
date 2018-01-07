@@ -47,7 +47,7 @@ public class Preprocessing {
 		 prefLocs.add(2);
 		 prefLocs.add(3);
 		 prefLocs.add(1);
-		writeLogicalFactsAndQueryToFiles("0xF647336BCE5A1BD337998EFF78653F42443A1BD0","MET Computer Science 5th Semester II 5CSEN17",1,1,
+		writeLogicalFactsAndQueryToFiles("0x7851BE2F39D2BF974941CFF18AE1999AF5A9BC12","MET Computer Science 5th Semester II 5CSEN17",1,1,
 				preftTimes,1,prefLocs);
 	}
 	
@@ -331,7 +331,7 @@ public class Preprocessing {
     		slots[slotNum] = 1;
     	}
 		for (int j = 0; j < slots.length-1; j++) {
-			mapInt += Math.pow(2, j)*slots[30-j];
+			mapInt += Math.pow(2, j)*slots[j+1];
 		}
 		return mapInt;
 	}

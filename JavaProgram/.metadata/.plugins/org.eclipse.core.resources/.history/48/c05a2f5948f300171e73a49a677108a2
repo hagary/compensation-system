@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
- class WeekDaySlot implements Comparable{
+ class WeekDaySlot{
 	 int week;
 	 int day;
 	 int slot;
@@ -20,15 +20,6 @@ import java.util.ArrayList;
 			 return "(" + week + ","  + day + ")";
 		 else 
 			 return "(" + week + ","  + day + "," + slot +")";
-		}
-
-	@Override
-	public int compareTo(Object o) {
-		// TODO Auto-generated method stub
-		WeekDaySlot other = (WeekDaySlot)o;
-		   if(other.week == week && other.day == day && other.slot == slot)
-			   return 0;
-		   else return 1;
 		}
  	}
 

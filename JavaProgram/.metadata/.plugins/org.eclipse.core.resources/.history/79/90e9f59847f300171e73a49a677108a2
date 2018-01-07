@@ -47,7 +47,7 @@ public class Preprocessing {
 		 prefLocs.add(2);
 		 prefLocs.add(3);
 		 prefLocs.add(1);
-		writeLogicalFactsAndQueryToFiles("0xF647336BCE5A1BD337998EFF78653F42443A1BD0","MET Computer Science 5th Semester II 5CSEN17",1,1,
+		writeLogicalFactsAndQueryToFiles("0x7D14887F78BAF16DB33D7A1DF41DF2F21A441C0E","MET Computer Science 5th Semester II 5CSEN17",1,1,
 				preftTimes,1,prefLocs);
 	}
 	
@@ -101,8 +101,7 @@ public class Preprocessing {
 				if(!staffHT.containsKey(staffID))
 					staffHT.put(staffID, new Staff(staffID,staffEntry.isLecturer()));
 				for (WeekDaySlot weekDaySlot : time) {
-					if(!staffHT.get(staffID).getOccupiedSlots().contains(weekDaySlot))
-						staffHT.get(staffID).getOccupiedSlots().add(weekDaySlot);
+					staffHT.get(staffID).getOccupiedSlots().add(weekDaySlot);
 				}
 			}
 		}
@@ -331,7 +330,7 @@ public class Preprocessing {
     		slots[slotNum] = 1;
     	}
 		for (int j = 0; j < slots.length-1; j++) {
-			mapInt += Math.pow(2, j)*slots[30-j];
+			mapInt += Math.pow(2, j)*slots[j+1];
 		}
 		return mapInt;
 	}

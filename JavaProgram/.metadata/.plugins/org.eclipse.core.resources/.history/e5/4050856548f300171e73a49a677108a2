@@ -27,8 +27,8 @@ import java.util.ArrayList;
 		// TODO Auto-generated method stub
 		WeekDaySlot other = (WeekDaySlot)o;
 		   if(other.week == week && other.day == day && other.slot == slot)
-			   return 0;
-		   else return 1;
+			   return 1;
+		   else return 0;
 		}
  	}
 

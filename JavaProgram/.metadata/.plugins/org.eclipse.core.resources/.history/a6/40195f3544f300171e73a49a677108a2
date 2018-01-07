@@ -38,16 +38,13 @@ public class Preprocessing {
 		 processStaff();
 		 staffDaysOff();
 		 groupDaysOff();
-		 System.out.println(groupHT);
+		 System.out.println(roomHT);
 		 officialHolidays = new ArrayList<WeekDaySlot>();
 		 officialHolidays.add(new WeekDaySlot(3, 3, 0));
 		 ArrayList<WeekDaySlot> preftTimes = new ArrayList<WeekDaySlot>();
 		 preftTimes.add(new WeekDaySlot(0, 1, 1));
-		 ArrayList<Integer> prefLocs = new ArrayList<Integer>();
-		 prefLocs.add(2);
-		 prefLocs.add(3);
-		 prefLocs.add(1);
-		writeLogicalFactsAndQueryToFiles("0xF647336BCE5A1BD337998EFF78653F42443A1BD0","MET Computer Science 5th Semester II 5CSEN17",1,1,
+		 int[] prefLocs = {1,2,3};
+		writeLogicalFactsAndQueryToFiles("0x7D14887F78BAF16DB33D7A1DF41DF2F21A441C0E","MET Computer Science 5th Semester I 10",1,1,
 				preftTimes,1,prefLocs);
 	}
 	
@@ -101,8 +98,7 @@ public class Preprocessing {
 				if(!staffHT.containsKey(staffID))
 					staffHT.put(staffID, new Staff(staffID,staffEntry.isLecturer()));
 				for (WeekDaySlot weekDaySlot : time) {
-					if(!staffHT.get(staffID).getOccupiedSlots().contains(weekDaySlot))
-						staffHT.get(staffID).getOccupiedSlots().add(weekDaySlot);
+					staffHT.get(staffID).getOccupiedSlots().add(weekDaySlot);
 				}
 			}
 		}
@@ -238,7 +234,7 @@ public class Preprocessing {
 	}
 	
 	public static void writeLogicalFactsAndQueryToFiles(String TA_ID, String groupName, int startWeek, int startDay,
-			ArrayList<WeekDaySlot> prefTimes, int prefRoomType,  ArrayList<Integer> prefRoomLoc) throws IOException{
+			ArrayList<WeekDaySlot> prefTimes, int prefRoomType, int[] prefRoomLoc) throws IOException{
 		Path path = Paths.get("test.pl");
 		
 		if(Files.exists(path,LinkOption.NOFOLLOW_LINKS))
@@ -257,7 +253,7 @@ public class Preprocessing {
 	}
 	
 	public static ArrayList<String> generateKnowledgeBase(String TA_ID, String groupName, int startWeek, int startDay,
-			ArrayList<WeekDaySlot> prefTimes, int prefRoomType,  ArrayList<Integer> prefRoomLoc){
+			ArrayList<WeekDaySlot> prefTimes, int prefRoomType, int[] prefRoomLoc){
 		ArrayList<String> lines = new ArrayList<String>();
 		//Staff data
 		lines.add("TA = (TAOccup, TAComp, TAOff),");
@@ -271,11 +267,9 @@ public class Preprocessing {
 		lines.add("Group = (GroupOccup, GroupComp, GroupOff, GroupSize),");
 		Group group = groupHT.get(groupName);
 		ArrayList<WeekDaySlot> groupOccupied = group.getOccupiedSlots();
-		ArrayList<WeekDaySlot> groupComp = group.getCompDates();
-
 		lines.add("GroupSize = " + group.getSize() + "," );
 		lines.add("GroupOccup = " + groupOccupied.toString() + ",");
-		lines.add("GroupComp = " + groupComp.toString()  + "," );
+		
 		//Start dates
 		lines.add("CompStart = " + "(" + startWeek + "," + startDay + "),");
 		
@@ -286,7 +280,6 @@ public class Preprocessing {
 		ArrayList<Integer> roomsCaps = new ArrayList<Integer>();
 		ArrayList<Integer> roomsTypes = new ArrayList<Integer>();
 		ArrayList<Integer> roomsOccupLists = new ArrayList<Integer>();
-		ArrayList<Integer> roomscompLists = new ArrayList<Integer>();
 
 		int i = 1;
 	    for (Entry<String,Room> roomEntry : roomHT.entrySet()) {
@@ -296,7 +289,6 @@ public class Preprocessing {
 	    	roomsTypes.add(roomEntry.getValue().type);
 	    	ArrayList<WeekDaySlot> occuplists = roomEntry.getValue().occupiedSlots;
 	    	roomsOccupLists.add(mapOccupiedSlots(occuplists));
-	    	ArrayList<WeekDaySlot> complists =  roomEntry.getValue().compDates;
 	    	i++;
 	    }
 	    
@@ -304,8 +296,8 @@ public class Preprocessing {
 	    lines.add("RoomsLocs = "+ roomsLocs.toString()+",");
 	    lines.add("RoomsCaps = "+ roomsCaps.toString()+",");
 	    lines.add("RoomsTypes = "+ roomsTypes.toString()+",");
-	    lines.add("RoomsOccupLists = "+ roomsOccupLists.toString() + ",");
-	    lines.add("RoomsCompLists = " + roomscompLists.toString() + "," );
+	    lines.add("RoomsOccupLists = "+ roomsOccupLists.toString()+",");
+	    
 	    //Preferences data
 	    lines.add("Preferences = (PrefTimes, PrefRoomType, PrefRoomLocs),");
 	    lines.add("PrefTimes = " + prefTimes.toString() + ",");
@@ -315,10 +307,7 @@ public class Preprocessing {
 	    
 	    //holiday dates
 	    lines.add("Holidays = " + officialHolidays.toString() + ",");
-	    //Input and query format
-	    lines.add("IN = (TA, Group, CompStart, Holidays, Rooms, Preferences),");
-	    lines.add("compensate(IN, OUT).");
-	    
+	   
 	    return lines;
 
 	}
@@ -331,7 +320,7 @@ public class Preprocessing {
     		slots[slotNum] = 1;
     	}
 		for (int j = 0; j < slots.length-1; j++) {
-			mapInt += Math.pow(2, j)*slots[30-j];
+			mapInt += Math.pow(2, j)*slots[j+1];
 		}
 		return mapInt;
 	}

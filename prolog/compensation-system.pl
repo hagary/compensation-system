@@ -1,8 +1,14 @@
 :- use_module(library(clpfd)).
 :- use_module(library(sgml_write)).
+
+:- ['query.pl'].
 %----------------------------NUMBERING CODE-------------------------------------
 % Locations: [Bs->1, Cs->2, Ds->3]
 % Room Types: [lab->1, tut->2, lec->3]
+
+weeks_count(3).
+days_count(2).
+slots_count(5).
 
 compensate(IN, OUT):-
 
@@ -19,9 +25,9 @@ compensate(IN, OUT):-
 
   %----------------------------DOMAINS------------------------------------------
 
-  WeeksCount = 16,
-  DaysCount = 6,
-  SlotsCount = 5,
+  weeks_count(WeeksCount),
+  days_count(DaysCount),
+  slots_count(SlotsCount),
   WeeklySlotsCount is DaysCount*SlotsCount,
   length(RoomsCompsEachWeek, WeeksCount),
 
@@ -123,8 +129,9 @@ CompSlot), C):-
   is_member(TAOff, CompD, BTA),
   CTA #= BTA*10,
   CGroup #= BGroup*5,
-  ((((I #= 0) #\/ (Diff #>= 6)) #==> (C #= Diff + CTA + CGroup + 10))  #/\
-  (((I #> 0) #/\ (Diff #< 6)) #==> (C #= I))).
+  days_count(DaysInWeek),
+  ((((I #= 0) #\/ (Diff #>= DaysInWeek)) #==> (C #= Diff + CTA + CGroup + 10))  #/\
+  (((I #> 0) #/\ (Diff #< DaysInWeek)) #==> (C #= I))).
 
 % Calculate the cost of the chosen location.
 cost_of_loc(PrefLocs, RoomLoc, C):-
@@ -179,20 +186,22 @@ member_pair_idx(I, [(N,M)|T], (X,Y), B):-
 
 % Calculate the days count between two dates (W,D,S).
 date_diff((W,D),(CompW,CompD),Diff):-
-  Diff #= 6*(CompW - W) + (CompD - D).
+  days_count(DC),
+  Diff #= DC*(CompW - W) + (CompD - D).
 
 % Convert a weekly slot to a (Day, Slot) pair (both ways).
 time_to_pair(0, (0,0)):-!.
 time_to_pair(T, (D, S)):-
-   D in 1..6, S in 1..5,
-  (D-1)*5 + S #= T.
+  days_count(DC), slots_count(SC),
+   D in 1..DC, S in 1..SC,
+  (D-1)*SC + S #= T.
 
 % Convert a semester slot to a (Week, Day, Slot) triple (both ways).
 date_to_triple(0, (0,0,0)):-!.
 date_to_triple(T, (W, D, S)):-
-  %TODO fix week range
-   W in 1..3, D in 1..6, S in 1..5,
-  (W-1)*5*6 + (D-1)*5 + S #= T.
+  weeks_count(WC) , days_count(DC), slots_count(SC),
+   W in 1..WC, D in 1..DC, S in 1..SC,
+  (W-1)*DC*SC + (D-1)*SC + S #= T.
 
 %------------------------------BINARY CONVERSION--------------------------------
 

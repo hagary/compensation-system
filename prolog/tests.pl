@@ -1,4 +1,3 @@
-% Sample Query 1
 TA = (TAOccup, TAComp, TAOff),
 TAOccup = [(1,3)], TAComp = [(1,1,4)], TAOff = [],
 
@@ -11,7 +10,7 @@ Rooms = [RoomsIDs, RoomsLocs, RoomsCaps, RoomsTypes, RoomsOccupLists, RoomsCompL
 RoomsIDs = [1,2,3],
 RoomsLocs = [2,2,2],
 RoomsCaps = [30,40,30],
-RoomsTypes = [2,1,3],
+RoomsTypes = [1,1,3],
 RoomsOccupLists = [0,512,0],
 RoomsCompLists = [[0,256,0],[0,0,0],[10,0,0]],
 

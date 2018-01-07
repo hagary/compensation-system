@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
- class WeekDaySlot{
+ class WeekDaySlot implements Comparable{
 	 int week;
 	 int day;
 	 int slot;
@@ -9,24 +9,64 @@ import java.util.ArrayList;
 		this.week = week;
 		this.day = day;
 		this.slot = slot;
+		
 	}
-}
+	 
+	 @Override
+		public String toString() {
+		 if(week == 0)
+			return "(" + day + "," + slot +")" ;
+		 else if(slot == 0)
+			 return "(" + week + ","  + day + ")";
+		 else 
+			 return "(" + week + ","  + day + "," + slot +")";
+		}
+
+	@Override
+	public int compareTo(Object o) {
+		// TODO Auto-generated method stub
+		WeekDaySlot other = (WeekDaySlot)o;
+		   if(other.week == week && other.day == day && other.slot == slot)
+			   return 0;
+		   else return 1;
+		}
+ 	}
 
 
 public class Group {
 	String studyGroup;
-	int tutNum;
+	String tutNum;
 	ArrayList<WeekDaySlot> occupiedSlots; 
 	ArrayList<Integer> daysOff;
-	public Group(String studyGroup, int tutNum) {
+	ArrayList<WeekDaySlot> compDates;
+	int size;
+	public Group(String studyGroup, String tutID, int Size) {
 		super();
 		occupiedSlots = new ArrayList<WeekDaySlot>();
 		daysOff = new ArrayList<Integer>();
+		compDates = new ArrayList<WeekDaySlot>();
 		this.studyGroup = studyGroup;
-		this.tutNum = tutNum;
+		this.tutNum = tutID;
+		this.size = Size;
 	}
-	ArrayList<WeekDaySlot> compDates;
 	
+	
+	public int getSize() {
+		return size;
+	}
+
+
+	public void setSize(int size) {
+		this.size = size;
+	}
+
+
+	@Override
+	public String toString() {
+		return "Group [studyGroup=" + studyGroup + ", tutNum=" + tutNum
+				+ ", slotsNum=  " + occupiedSlots.size() + ", occupiedSlots=" + occupiedSlots + ", daysOff=" + daysOff
+				+ ", compDates=" + compDates + "]";
+	}
 	
 	public String getStudyGroup() {
 		return studyGroup;
@@ -34,10 +74,10 @@ public class Group {
 	public void setStudyGroup(String studyGroup) {
 		this.studyGroup = studyGroup;
 	}
-	public int getTutNum() {
+	public String getTutNum() {
 		return tutNum;
 	}
-	public void setTutNum(int tutNum) {
+	public void setTutNum(String tutNum) {
 		this.tutNum = tutNum;
 	}
 	public ArrayList<WeekDaySlot> getOccupiedSlots() {

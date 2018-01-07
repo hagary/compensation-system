@@ -1,6 +1,0 @@
-
-public class CSVReader {
-
-	
-	Path pathToFile = Paths.get("Groups.scv");
-}

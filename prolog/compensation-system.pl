@@ -107,9 +107,9 @@ compensate(IN, OUT):-
                               % HELPER PREDICATES
 %-------------------------------------------------------------------------------
 write_result(Stream, (W,D,S), RoomID):-
-  Out = [element(week, [], [W]), element(day, [], [D]), element(slot, [], [S]), element(room, [], [RoomID])],
-  xml_write(Stream, Out, []).
-
+  Week = element(week, [], [W]), Day = element(day, [], [D]),
+  Slot = element(slot, [], [S]), Room = element(room, [], [RoomID]),
+  xml_write(Stream, [element(compensation, [], [Week, Day, Slot, Room])], [header(false)]).
 %--------------------------------COST PREDICATES--------------------------------
 
 % Calculate total cost of the output.

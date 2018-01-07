@@ -6,8 +6,8 @@
 % Locations: [Bs->1, Cs->2, Ds->3]
 % Room Types: [lab->1, tut->2, lec->3]
 
-weeks_count(3).
-days_count(2).
+weeks_count(16).
+days_count(6).
 slots_count(5).
 
 compensate(IN, OUT):-

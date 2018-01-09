@@ -1,3 +1,4 @@
+package processing;
 
 public class StaffEntry {
 	private int groupID;

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
+
+  <title>GUC Compensation</title>
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js" integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4" crossorigin="anonymous"></script>
+</head>
+<body>
+  <div class="text-center">
+    <p class="h1">GUC Compensation System</p>
+  </div>
+  <div>
+    <form name = "compensate" action="/compensate" method="post" class="px-4 py-3">
+      <div class="form-group">
+        <label for="instructorID">Instructor ID</label>
+        <input name="instructor" type="text" class="form-control" id="instructorID" placeholder="Enter Instructor ID">
+        <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
+      </div>
+      <div class="form-row">
+        <div class="form-group col-md-5">
+          <label for="groupID">Group Name</label>
+          <input name="group" type="text" class="form-control" id="groupID" placeholder="Enter group name">
+        </div>
+        <div class="form-group col-md-2">
+          <label for="tutNum">Tutorial Number</label>
+          <input name="tutorial" type="text" class="form-control" id="tutNum" placeholder="Enter tutorial number">
+          <small class="text-muted">
+            0 if lecture group.
+          </small>
+        </div>
+      </div>
+      <label>Starting from</label>
+      <div class="form-row">
+        <div class="form-group col-md-1">
+          <label for="startWeek">Week</label>
+          <select name="startWeek" class="form-control" id="startWeek">
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+            <option>4</option>
+            <option>5</option>
+            <option>6</option>
+            <option>7</option>
+            <option>8</option>
+            <option>9</option>
+            <option>10</option>
+            <option>11</option>
+            <option>12</option>
+            <option>13</option>
+            <option>14</option>
+            <option>15</option>
+            <option>16</option>
+          </select>
+        </div>
+        <div class="form-group col-md-1">
+          <label for="startDay">Day</label>
+          <select name="startDay" class="form-control" id="startDay">
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+            <option>4</option>
+            <option>5</option>
+            <option>6</option>
+          </select>
+        </div>
+      </div>
+      <label>Prefered Time 1</label>
+      <div class="form-row">
+        <div class="form-group col-md-1">
+          <label for="prefDay1">Day</label>
+          <select name="prefDay1" class="form-control" id="prefDay1">
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+            <option>4</option>
+            <option>5</option>
+            <option>6</option>
+          </select>
+        </div>
+        <div class="form-group col-md-1">
+          <label for="prefSlot1">Slot</label>
+          <select name="prefSlot1" class="form-control" id="prefSlot1">
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+            <option>4</option>
+            <option>5</option>
+          </select>
+        </div>
+      </div>
+      <label>Prefered Time 2</label>
+      <div class="form-row">
+        <div class="form-group col-md-1">
+          <label for="prefDay2">Day</label>
+          <select name="prefDay2" class="form-control" id="prefDay2">
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+            <option>4</option>
+            <option>5</option>
+            <option>6</option>
+          </select>
+        </div>
+        <div class="form-group col-md-1">
+          <label for="prefSlot2">Slot</label>
+          <select name="prefSlot2" class="form-control" id="prefSlot2">
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+            <option>4</option>
+            <option>5</option>
+          </select>
+        </div>
+      </div>
+      <label>Prefered Time 3</label>
+      <div class="form-row">
+        <div class="form-group col-md-1">
+          <label for="prefDay3">Day</label>
+          <select name="prefDay3" class="form-control" id="prefDay3">
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+            <option>4</option>
+            <option>5</option>
+            <option>6</option>
+          </select>
+        </div>
+        <div class="form-group col-md-1">
+          <label for="prefSlot3">Slot</label>
+          <select name="prefSlot3" class="form-control" id="prefSlot3">
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+            <option>4</option>
+            <option>5</option>
+          </select>
+        </div>
+      </div>
+      <label for="prefTimes">Prioritized Locations</label>
+      <div class="form-inline">
+        <div class="input-group mb-2 mr-sm-2">
+          <div class="input-group-prepend">
+            <div class="input-group-text">Bs</div>
+          </div>
+          <input name="BPrior" type="text" class="form-control" id="prefBs" placeholder="Bs Priority">
+        </div>
+        <label class="sr-only" for="prefCs">Cs Priority</label>
+        <div class="input-group mb-2 mr-sm-2">
+          <div class="input-group-prepend">
+            <div class="input-group-text">Cs</div>
+          </div>
+          <input type="text" name="CPrior" class="form-control" id="prefCs" placeholder="Cs Priority">
+        </div>
+        <div class="input-group mb-2 mr-sm-2">
+          <div class="input-group-prepend">
+            <div class="input-group-text">Ds</div>
+          </div>
+          <input type="text" name="DPrior" class="form-control" id="prefDs" placeholder="Ds Priority">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="roomType">Prefered Room Type</label>
+        <select name="roomType" class="form-control" id="roomType">
+          <option>Lab</option>
+          <option>Room</option>
+          <option>Hall</option>
+        </select>
+      </div>
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+  </div>
+
+</body>
+</html>

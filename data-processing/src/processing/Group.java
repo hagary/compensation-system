@@ -1,3 +1,4 @@
+package processing;
 import java.util.ArrayList;
 
  class WeekDaySlot implements Comparable{

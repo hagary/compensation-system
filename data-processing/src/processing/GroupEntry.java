@@ -1,3 +1,4 @@
+package processing;
 
 public class GroupEntry {
 	private int groupID;

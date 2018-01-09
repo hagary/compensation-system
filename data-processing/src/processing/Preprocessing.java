@@ -1,3 +1,4 @@
+package processing;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
@@ -42,21 +43,24 @@ public class Preprocessing {
 	
 	
 	
-	public static void main(String[] args) throws Exception{
-		 init();
-		 formatFronEnd("0xD4ED63E71DC441013FC5FB1858254F4E15A95D7E", "MET Computer Science 5th Semester II 19", "1", "5", "2", "3", "4", "4", "1", "2", "3", "Hall" , "1", "1");
-		 for (Entry<String,Room>  r : roomHT.entrySet() ) {
-				System.out.println(r.getValue().occupiedSlots);
-			}
-		 System.out.println(groupHT);
-		 //storeCompensation(stuffID,groupName);    
-		 query();                                                                                   
-	}
+//	public static void main(String[] args) throws Exception{
+//		 init();
+//		 formatFronEnd("0xD4ED63E71DC441013FC5FB1858254F4E15A95D7E", "MET Computer Science 5th Semester II 19", "1", "5", "2", "3", "4", "4", "1", "2", "3", "Hall" , "1", "1");
+//		 for (Entry<String,Room>  r : roomHT.entrySet() ) {
+//				System.out.println(r.getValue().occupiedSlots);
+//			}
+//		 System.out.println(groupHT);
+//		 //storeCompensation(stuffID,groupName);    
+//		 query();                                                                                   
+//	}
 	
 	
-	public static void query() throws IOException{
-		 writeLogicalFactsAndQueryToFiles(stuffID,groupName,startDay,startWeek,preftTimes,prefRoomType,prefLocs);
+	public static Compensation query(String StuffID, String GroupID,String Day1,String Slot1,String Day2,
+			String Slot2, String Day3, String Slot3, String B, String C, String D,String prefType,String week,String Day) throws IOException, ParserConfigurationException, SAXException{
+		formatFronEnd(StuffID, GroupID, Day1, Slot1, Day2, Slot2, Day3, Slot3, B, C, D, prefType, week, Day);
+		 writeLogicalFactsAndQueryToFiles();
 		 PrologExecuter.executeProlog("../prolog/compensation-system.pl");
+		 return storeCompensation(StuffID, GroupID);
 	}
 	
 	
@@ -132,7 +136,7 @@ public class Preprocessing {
 		officialHolidays = offHolidays;
 	}
 	
-	public static void storeCompensation(String staffID, String groupID) throws ParserConfigurationException, SAXException, IOException{
+	public static Compensation storeCompensation(String staffID, String groupID) throws ParserConfigurationException, SAXException, IOException{
 		Compensation comp = OutputHandler.readCompensationXML(staffID, groupID);
 		// Store TA compensation date.
 		staffHT.get(comp.staffID).getCompDates().add(comp.time);
@@ -141,6 +145,7 @@ public class Preprocessing {
 		// Store room compensation date.
 		int slotNum = (comp.time.day - 1) * 5 + comp.time.slot;
 		roomCompEachWeek[comp.time.week - 1][Integer.parseInt(comp.roomID)-1] |= 1<<(slotNum-1);
+		return comp;
 	}
 	
 	//calculate the off days of the stuff
@@ -323,14 +328,13 @@ public class Preprocessing {
 		}
 	}
 	
-	public static void writeLogicalFactsAndQueryToFiles(String TA_ID, String groupName, int startWeek, int startDay,
-			ArrayList<WeekDaySlot> prefTimes, int prefRoomType,  int[] prefRoomLoc) throws IOException{
+	public static void writeLogicalFactsAndQueryToFiles() throws IOException{
 		Path path = Paths.get("../prolog/query.pl");
 		
 		if(Files.exists(path,LinkOption.NOFOLLOW_LINKS))
 			Files.delete(path);
 		
-		ArrayList<String> kowledgeBaseLines = generateKnowledgeBase(TA_ID,groupName,startWeek,startDay,prefTimes,prefRoomType,prefRoomLoc);
+		ArrayList<String> kowledgeBaseLines = generateKnowledgeBase(stuffID,groupName,startWeek,startDay,preftTimes,prefRoomType,prefLocs);
 		Files.write(path, kowledgeBaseLines,Charset.defaultCharset());
 		
 //		path = Paths.get("Logic-Agent/query.pl");

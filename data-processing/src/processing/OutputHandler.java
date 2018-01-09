@@ -1,3 +1,4 @@
+package processing;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -13,25 +14,6 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
-class Compensation{
-	String staffID;
-	String groupID;
-	WeekDaySlot time;
-	String roomID;
-	public Compensation(String staffID, String groupID, WeekDaySlot time,
-			String roomID) {
-		super();
-		this.staffID = staffID;
-		this.groupID = groupID;
-		this.time = time;
-		this.roomID = roomID;
-	}
-	@Override
-	public String toString() {
-		return "Compensation [staffID=" + staffID + ", groupID=" + groupID
-				+ ", time=" + time + ", roomID=" + roomID + "]";
-	}
-}
 public class OutputHandler {
 	static PrintWriter pw;
 	static BufferedWriter bw;

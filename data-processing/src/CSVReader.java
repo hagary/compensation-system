@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public class CSVReader {
 
-	public static ArrayList readGroupFile() throws Exception{
+	public static ArrayList<GroupEntry> readGroupFile() throws Exception{
 
 		BufferedReader br = new BufferedReader(new FileReader(new File("Groups.csv")));
 		String line = "";
@@ -35,7 +35,7 @@ public class CSVReader {
 	}
 	
 	
-	public static ArrayList readStaffFile() throws Exception{
+	public static ArrayList<StaffEntry> readStaffFile() throws Exception{
 
 		BufferedReader br = new BufferedReader(new FileReader(new File("Staff.csv")));
 		String line = "";

@@ -22,15 +22,12 @@ compensate(IN, OUT):-
   Rooms = [RoomsIDs, RoomsLocs, RoomsCaps, RoomsTypes, RoomsOccups,
   RoomsCompsEachWeek],
   Preferences = (PrefTimes, PrefRoomType, PrefRoomLocs),
-
   %----------------------------DOMAINS------------------------------------------
-
   weeks_count(WeeksCount),
   days_count(DaysCount),
   slots_count(SlotsCount),
   WeeklySlotsCount is DaysCount*SlotsCount,
   length(RoomsCompsEachWeek, WeeksCount),
-
   % maplist(binary_number(WeeklySlotsCount), RoomsOccupLists, RoomsOccups),
 
   CompWeek in 1..WeeksCount,
@@ -55,13 +52,11 @@ compensate(IN, OUT):-
   is_member_pair(GroupOccup, (CompDay, CompSlot), IsGroupOccup),
   IsTAOccup #= 0,
   IsGroupOccup #= 0,
-
   % Compensation time should not be during a compensation by the TA or for the group.
   is_member_triple(TAComp, (CompWeek, CompDay, CompSlot), IsTAComp),
   is_member_triple(GroupComp, (CompWeek, CompDay, CompSlot), IsGroupComp),
   IsTAComp #= 0,
   IsGroupComp #= 0,
-
   % Compensation date should not be on an official holiday.
   is_member_pair(Holidays, (CompWeek, CompDay), IsHoliday),
   IsHoliday #= 0,
@@ -81,11 +76,11 @@ compensate(IN, OUT):-
   binary_number(WeeklySlotsCount, RoomOccupList, RoomOccup),
   element(CompTime, RoomOccupList, IsRoomOccup),
   IsRoomOccup #= 0,
-
   % Compensation should not be held in a room scheduled for another compensation.
   element(CompWeek, RoomCompEachWeek, RoomCompInWeek),
   binary_number(WeeklySlotsCount, RoomCompInWeekList, RoomCompInWeek),
-  element(CompTime, RoomCompInWeekList, IsRoomComp),
+  CompTimeIndex #= WeeklySlotsCount + 1 - CompTime,
+  element(CompTimeIndex, RoomCompInWeekList, IsRoomComp),
   IsRoomComp #= 0,
 
 
@@ -96,7 +91,6 @@ compensate(IN, OUT):-
   OUT = ('Cost: ', Cost, 'Week: ', CompWeek, 'Day: ', CompDay, 'Slot: ',
   CompSlot, 'RoomID: ', RoomID),
   labeling([min(Cost)], [CompWeek, CompDay, CompSlot, RoomIdx]),
-
   %----------------------------OUTPUT-------------------------------------------
   open('output.xml', write, Stream),
   write_result(Stream, Compensation, RoomID),

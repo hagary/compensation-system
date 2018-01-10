@@ -18,12 +18,6 @@ public class OutputHandler {
 	static PrintWriter pw;
 	static BufferedWriter bw;
 	
-//	public static void main(String[] args) throws IOException, ParserConfigurationException, SAXException {
-//		initHandler();
-//		Compensation c = readCompensationXML("hamada", "balabizo");
-//		storeCompensationCSV(c);
-//	}
-	
 	public static void initHandler() throws IOException{
 		String fileName = "Compensations.csv";
 		bw = new BufferedWriter(new FileWriter(fileName));
@@ -32,6 +26,7 @@ public class OutputHandler {
 		pw.flush();
 	}
 	public static void storeCompensationCSV(Compensation c) throws FileNotFoundException{
+		if(c==null) return;
 		pw = new PrintWriter(bw);
 		StringJoiner joiner = new StringJoiner(",");
 		joiner.add(c.staffID).add(c.groupID).
@@ -44,7 +39,7 @@ public class OutputHandler {
 	public static Compensation readCompensationXML(String staffID, String groupID) throws ParserConfigurationException, SAXException, IOException{
 		String fileName = "output.xml";
 		File xmlFile = new File(fileName);
-		
+		if(xmlFile.length() == 0) return null;
 		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 		Document doc = dBuilder.parse(xmlFile);
@@ -57,7 +52,7 @@ public class OutputHandler {
 		int slot = Integer.parseInt(
 				doc.getElementsByTagName("slot").item(0).getTextContent());
 		String roomID = 
-				doc.getElementsByTagName("day").item(0).getTextContent();
+				doc.getElementsByTagName("room").item(0).getTextContent();
 		
 		return new Compensation(staffID, groupID, new WeekDaySlot(week, day, slot), 
 				roomID);

@@ -1,4 +1,3 @@
-package processing;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
@@ -7,12 +6,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Hashtable;
 import java.util.Map.Entry;
-
-import javafx.util.Pair;
 
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -25,22 +20,18 @@ public class Preprocessing {
 	public static Hashtable<String,Staff> staffHT;
 	public static Hashtable<String,Staff> tutHT;
 	public static Hashtable<String,Room> roomHT;
-	
 	public static Hashtable<String, ArrayList<String>> TutorialGroup;
 	public static Hashtable<String,ArrayList<WeekDaySlot>> groupTutorialSchedule;
 	public static ArrayList<GroupEntry> GE;
 	public static ArrayList<StaffEntry> SE;
 	public static ArrayList<WeekDaySlot> officialHolidays;
-	
 	static int[][] roomCompEachWeek;
-	static  ArrayList<String> roomsNames;
-	static  ArrayList<Integer> roomsIDs;
-	static	ArrayList<Integer> roomsLocs;
-	static	ArrayList<Integer> roomsCaps;
-	static	ArrayList<Integer> roomsTypes;
+	static  ArrayList<Integer> roomsIDs ;
+	static	ArrayList<Integer> roomsLocs ;
+	static	ArrayList<Integer> roomsCaps ;
+	static	ArrayList<Integer> roomsTypes ;
 	static	ArrayList<Integer> roomsOccupLists;
-	
-	//User Input
+	static	ArrayList<Integer> roomscompLists ;
 	static  ArrayList<WeekDaySlot> preftTimes;
 	static  int[] prefLocs;
 	static  String stuffID;
@@ -48,13 +39,24 @@ public class Preprocessing {
 	static int prefRoomType;
 	static int startWeek;
 	static int startDay;
-
-	public static Compensation query(String StuffID, String GroupID,String Day1,String Slot1,String Day2,
-		String Slot2, String Day3, String Slot3, String B, String C, String D,String prefType,String week,String Day) throws IOException, ParserConfigurationException, SAXException{
-		formatFronEnd(StuffID, GroupID, Day1, Slot1, Day2, Slot2, Day3, Slot3, B, C, D, prefType, week, Day);
-		 writeLogicalFactsAndQueryToFiles();
+	
+	
+	
+	public static void main(String[] args) throws Exception{
+		 init();
+		 formatFronEnd("0xD4ED63E71DC441013FC5FB1858254F4E15A95D7E", "MET Computer Science 5th Semester II 19", "1", "5", "2", "3", "4", "4", "1", "2", "3", "Hall" , "1", "1");
+		 for (Entry<String,Room>  r : roomHT.entrySet() ) {
+				System.out.println(r.getValue().occupiedSlots);
+				}
+		 System.out.println(groupHT);
+		 //storeCompensation(stuffID,groupName);    
+		 query();                                                                                   
+	}
+	
+	
+	public static void query() throws IOException{
+		 writeLogicalFactsAndQueryToFiles(stuffID,groupName,startWeek,startDay,preftTimes,prefRoomType,prefLocs);
 		 PrologExecuter.executeProlog("../prolog/compensation-system.pl");
-		 return storeCompensation(StuffID, GroupID);
 	}
 	
 	
@@ -70,7 +72,6 @@ public class Preprocessing {
 		 preProcessData();
 		 officialHolidays = new ArrayList<WeekDaySlot>();
 		 officialHolidays.add(new WeekDaySlot(3, 3, 0));
-		 OutputHandler.initHandler();
 	}
 	
 	public static void formatFronEnd(String StuffID, String GroupID,String Day1,String Slot1,String Day2,
@@ -88,18 +89,13 @@ public class Preprocessing {
 		case"Room": prefRoomType = 2;break; 
 		case"Hall":	prefRoomType = 3;break;
 		}
-		Pair<Integer, Integer> pairB = new Pair<Integer, Integer>(1, Integer.parseInt(B));
-		Pair<Integer, Integer> pairC = new Pair<Integer, Integer>(2, Integer.parseInt(C));
-		Pair<Integer, Integer> pairD = new Pair<Integer, Integer>(3, Integer.parseInt(D));
-		ArrayList<Pair<Integer, Integer> > pairs = new ArrayList<Pair<Integer, Integer> >();
-		pairs.add(pairB); pairs.add(pairC); pairs.add(pairD);
-		final Comparator<Pair<Integer, Integer>> compare = Comparator.comparing(Pair::getValue);
-		Collections.sort(pairs, compare);
 		prefLocs = new int[3];
-		prefLocs[0] = pairs.get(0).getKey();
-		prefLocs[1] = pairs.get(1).getKey();
-		prefLocs[2] = pairs.get(2).getKey();
+		prefLocs[0] = Integer.parseInt(B);
+		prefLocs[1] = Integer.parseInt(C);
+		prefLocs[2] = Integer.parseInt(D);
 	}
+	
+
 	
 	public static void preProcessData(){
 		 processTutorialGroup();
@@ -113,20 +109,20 @@ public class Preprocessing {
 		 roomsCaps = new ArrayList<Integer>();
 		 roomsTypes = new ArrayList<Integer>();
 		 roomsOccupLists = new ArrayList<Integer>();
-		 roomsNames = new ArrayList<String>();
+		 roomscompLists = new ArrayList<Integer>();
 		 roomCompEachWeek = new int[16][roomHT.size()];
 		 for (int j = 0; j < 16; j++) {
 			 Arrays.fill(roomCompEachWeek[j],0);
 		 }
 			int i = 1;
 		    for (Entry<String,Room> roomEntry : roomHT.entrySet()) {
-		    	roomsNames.add(roomEntry.getValue().ID);
 		    	roomsIDs.add(i);
 		    	roomsLocs.add(roomEntry.getValue().location);
 		    	roomsCaps.add(roomEntry.getValue().capacity);
 		    	roomsTypes.add(roomEntry.getValue().type);
 		    	ArrayList<WeekDaySlot> occuplists = roomEntry.getValue().occupiedSlots;
 		    	roomsOccupLists.add(mapOccupiedSlots(occuplists));
+		    	ArrayList<WeekDaySlot> complists =  roomEntry.getValue().compDates;
 		    	i++;
 		    }
 
@@ -136,31 +132,16 @@ public class Preprocessing {
 		officialHolidays = offHolidays;
 	}
 	
-	public static Compensation storeCompensation(String staffID, String groupID) throws ParserConfigurationException, SAXException, IOException{
+	public static void storeCompensation(String staffID, String groupID) throws ParserConfigurationException, SAXException, IOException{
 		Compensation comp = OutputHandler.readCompensationXML(staffID, groupID);
-		comp.roomName = roomsNames.get(Integer.parseInt(comp.roomID) - 1);
-		OutputHandler.storeCompensationCSV(comp);
 		// Store TA compensation date.
 		staffHT.get(comp.staffID).getCompDates().add(comp.time);
 		// Store group compensation date.
-		updateGroupComp(comp.groupID, comp.time);
+		groupHT.get(comp.groupID).getCompDates().add(comp.time);
 		// Store room compensation date.
 		int slotNum = (comp.time.day - 1) * 5 + comp.time.slot;
 		roomCompEachWeek[comp.time.week - 1][Integer.parseInt(comp.roomID)-1] |= 1<<(slotNum-1);
-		return comp;
 	}
-	
-	public static void updateGroupComp(String groupID, WeekDaySlot time){
-		if(groupID.charAt(groupID.length()-1) == '0'){
-			 ArrayList<String> tut = TutorialGroup.get(groupID.substring(0, groupID.length()-2));
-			 for (int i = 0; i < tut.size(); i++) {
-				String key = groupID.substring(0,groupID.length()-2) + " " + tut.get(i);
-				groupHT.get(key).getCompDates().add(time);
-			}
-		}
-		groupHT.get(groupID).getCompDates().add(time);
-	}
-	
 	
 	//calculate the off days of the stuff
 	public static void staffDaysOff(){
@@ -342,13 +323,14 @@ public class Preprocessing {
 		}
 	}
 	
-	public static void writeLogicalFactsAndQueryToFiles() throws IOException{
+	public static void writeLogicalFactsAndQueryToFiles(String TA_ID, String groupName, int startWeek, int startDay,
+			ArrayList<WeekDaySlot> prefTimes, int prefRoomType,  int[] prefRoomLoc) throws IOException{
 		Path path = Paths.get("../prolog/query.pl");
 		
 		if(Files.exists(path,LinkOption.NOFOLLOW_LINKS))
 			Files.delete(path);
 		
-		ArrayList<String> kowledgeBaseLines = generateKnowledgeBase(stuffID,groupName,startWeek,startDay,preftTimes,prefRoomType,prefLocs);
+		ArrayList<String> kowledgeBaseLines = generateKnowledgeBase(TA_ID,groupName,startWeek,startDay,prefTimes,prefRoomType,prefRoomLoc);
 		Files.write(path, kowledgeBaseLines,Charset.defaultCharset());
 		
 //		path = Paths.get("Logic-Agent/query.pl");
@@ -363,30 +345,24 @@ public class Preprocessing {
 	public static ArrayList<String> generateKnowledgeBase(String TA_ID, String groupName, int startWeek, int startDay,
 		ArrayList<WeekDaySlot> prefTimes, int prefRoomType,  int[] prefRoomLoc){
 		ArrayList<String> lines = new ArrayList<String>();
-		lines.add("query:-");
-		
 		//Staff data
+		lines.add("query:-");
 		lines.add("TA = (TAOccup, TAComp, TAOff),");
 		Staff staff = staffHT.get(TA_ID);
 		ArrayList<Integer> daysOff = staff.getDaysOff();
 		ArrayList<WeekDaySlot> TAOccupied = staff.getOccupiedSlots();
-		ArrayList<WeekDaySlot> TAComp = staff.getCompDates();
-
 		lines.add("TAOccup = " + TAOccupied.toString() + ",");
 		lines.add("TAOff = " + daysOff.toString() + ",");
-		lines.add("TAComp = " + TAComp.toString() + ",");
 		
 		//Group data
 		lines.add("Group = (GroupOccup, GroupComp, GroupOff, GroupSize),");
 		Group group = groupHT.get(groupName);
 		ArrayList<WeekDaySlot> groupOccupied = group.getOccupiedSlots();
 		ArrayList<WeekDaySlot> groupComp = group.getCompDates();
-		ArrayList<Integer> groupOff= group.getDaysOff();
 
 		lines.add("GroupSize = " + group.getSize() + "," );
 		lines.add("GroupOccup = " + groupOccupied.toString() + ",");
 		lines.add("GroupComp = " + groupComp.toString()  + "," );
-		lines.add("GroupOff= " + groupOff.toString()  + ",");
 		//Start dates
 		lines.add("CompStart = " + "(" + startWeek + "," + startDay + "),");
 		

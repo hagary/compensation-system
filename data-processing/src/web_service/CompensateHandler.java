@@ -35,8 +35,19 @@ public class CompensateHandler implements HttpHandler {
 		HashMap<String, Object> parameters = new HashMap<String, Object>();
 		parseQuery(query, parameters);
 
-		Compensation c = reserveCompensation(parameters);
-		File file = createHTMLResponse("front-end/output-template.html", "front-end/output.html", c);
+		Compensation c = null;
+		try {
+			c = reserveCompensation(parameters);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		File file = null;
+		if(c==null)
+			//No result found!
+			file = new File("front-end/sorry.html");
+		else
+		 file = createHTMLResponse("front-end/output-template.html", "front-end/output.html", c);
 
 		he.sendResponseHeaders(200, 0);
 		OutputStream os = he.getResponseBody();
@@ -49,7 +60,7 @@ public class CompensateHandler implements HttpHandler {
 		fs.close();
 		os.close();
 	}
-	public static Compensation reserveCompensation(HashMap<String, Object>  parameters) throws IOException{
+	public static Compensation reserveCompensation(HashMap<String, Object>  parameters) throws IOException, InterruptedException{
 		String staffID = (String) parameters.get("instructor");
 		String groupName = (String) parameters.get("group");
 		String tutNum = (String) parameters.get("tutorial");

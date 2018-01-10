@@ -50,7 +50,7 @@ public class Preprocessing {
 	static int startDay;
 
 	public static Compensation query(String StuffID, String GroupID,String Day1,String Slot1,String Day2,
-			String Slot2, String Day3, String Slot3, String B, String C, String D,String prefType,String week,String Day) throws IOException, ParserConfigurationException, SAXException{
+			String Slot2, String Day3, String Slot3, String B, String C, String D,String prefType,String week,String Day) throws IOException, ParserConfigurationException, SAXException, InterruptedException{
 		formatFronEnd(StuffID, GroupID, Day1, Slot1, Day2, Slot2, Day3, Slot3, B, C, D, prefType, week, Day);
 		 writeLogicalFactsAndQueryToFiles();
 		 PrologExecuter.executeProlog("../prolog/compensation-system.pl");
@@ -139,6 +139,7 @@ public class Preprocessing {
 	
 	public static Compensation storeCompensation(String staffID, String groupID) throws ParserConfigurationException, SAXException, IOException{
 		Compensation comp = OutputHandler.readCompensationXML(staffID, groupID);
+		if(comp == null) return null;
 		comp.roomName = roomsNames.get(Integer.parseInt(comp.roomID) - 1);
 		OutputHandler.storeCompensationCSV(comp);
 		// Store TA compensation date.

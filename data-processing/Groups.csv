@@ -39,7 +39,7 @@ group_id,group_name,group_full_name,course_code,course_name,week_day,scd_col,scd
 722,CSEN L02,CSEN 605 CSEN L02,CSEN 605,Digital System Design ,3,2,MET Computer Science 5th Semester II,Lecture,H9,102,122
 120,5CSEN T15,CSEN 605 5CSEN T15,CSEN 605,Digital System Design ,2,1,MET Computer Science 5th Semester II,Tutorial,C7.203,24,27
 307,5CSEN T16,CSEN 605 5CSEN T16,CSEN 605,Digital System Design ,3,4,MET Computer Science 5th Semester II,Tutorial,C7.220,25,27
-952,5CSEN T17,CSEN 605 5CSEN T17,CSEN 605,Digital System Design ,2,4,MET Computer Science 5th Semester II,Tutorial,C7.303-,23,21
+952,5CSEN T17,CSEN 605 5CSEN T17,CSEN 605,Digital System Design ,2,4,MET Computer Science 5th Semester II,Tutorial,C7.303,23,21
 168,5CSEN T18,CSEN 605 5CSEN T18,CSEN 605,Digital System Design ,6,3,MET Computer Science 5th Semester II,Tutorial,C7.203,23,24
 168,5CSEN T18,CSEN 605 5CSEN T18,CSEN 605,Digital System Design ,6,3,MET Computer Science 5th Semester II,Tutorial,C7.203,20,29
 991,5CSEN T19,CSEN 605 5CSEN T19,CSEN 605,Digital System Design ,1,2,MET Computer Science 5th Semester II,Tutorial,C7.201,23,20

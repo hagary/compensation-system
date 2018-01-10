@@ -352,14 +352,18 @@ public class Preprocessing {
 	public static ArrayList<String> generateKnowledgeBase(String TA_ID, String groupName, int startWeek, int startDay,
 		ArrayList<WeekDaySlot> prefTimes, int prefRoomType,  int[] prefRoomLoc){
 		ArrayList<String> lines = new ArrayList<String>();
-		//Staff data
 		lines.add("query:-");
+		
+		//Staff data
 		lines.add("TA = (TAOccup, TAComp, TAOff),");
 		Staff staff = staffHT.get(TA_ID);
 		ArrayList<Integer> daysOff = staff.getDaysOff();
 		ArrayList<WeekDaySlot> TAOccupied = staff.getOccupiedSlots();
+		ArrayList<WeekDaySlot> TAComp = staff.getCompDates();
+
 		lines.add("TAOccup = " + TAOccupied.toString() + ",");
 		lines.add("TAOff = " + daysOff.toString() + ",");
+		lines.add("TAComp = " + TAComp.toString() + ",");
 		
 		//Group data
 		lines.add("Group = (GroupOccup, GroupComp, GroupOff, GroupSize),");

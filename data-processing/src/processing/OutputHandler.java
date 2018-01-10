@@ -57,7 +57,7 @@ public class OutputHandler {
 		int slot = Integer.parseInt(
 				doc.getElementsByTagName("slot").item(0).getTextContent());
 		String roomID = 
-				doc.getElementsByTagName("day").item(0).getTextContent();
+				doc.getElementsByTagName("room").item(0).getTextContent();
 		
 		return new Compensation(staffID, groupID, new WeekDaySlot(week, day, slot), 
 				roomID);

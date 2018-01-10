@@ -1,39 +1,6 @@
 package processing;
 import java.util.ArrayList;
 
- class WeekDaySlot implements Comparable{
-	 int week;
-	 int day;
-	 int slot;
-	 
-	 public WeekDaySlot(int week, int day, int slot) {
-		this.week = week;
-		this.day = day;
-		this.slot = slot;
-		
-	}
-	 
-	 @Override
-		public String toString() {
-		 if(week == 0)
-			return "(" + day + "," + slot +")" ;
-		 else if(slot == 0)
-			 return "(" + week + ","  + day + ")";
-		 else 
-			 return "(" + week + ","  + day + "," + slot +")";
-		}
-
-	@Override
-	public int compareTo(Object o) {
-		// TODO Auto-generated method stub
-		WeekDaySlot other = (WeekDaySlot)o;
-		   if(other.week == week && other.day == day && other.slot == slot)
-			   return 0;
-		   else return 1;
-		}
- 	}
-
-
 public class Group {
 	String studyGroup;
 	String tutNum;

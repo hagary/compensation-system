@@ -25,7 +25,7 @@ group_id,group_name,group_full_name,course_code,course_name,week_day,scd_col,scd
 31,5CSEN T18,CSEN 501 5CSEN T18,CSEN 501,Data Base I,2,2,MET Computer Science 5th Semester II,Tutorial,C2.312,27,26
 563,5CSEN T19,CSEN 501 5CSEN T19,CSEN 501,Data Base I,6,3,MET Computer Science 5th Semester II,Tutorial,C5.305,24,28
 243,DMET L01,CSEN 501 DMET L01,CSEN 501,Data Base I,6,4,MET Digital Media Engineering 5th Semester I,Lecture,H9,104,33
-899,5DMET P20,CSEN 501 5DMET P20,CSEN 501,Data Base I,3,1,MET Digital Media Engineering 5th Semester I,Practical,C7.303-,27,27
+899,5DMET P20,CSEN 501 5DMET P20,CSEN 501,Data Base I,3,1,MET Digital Media Engineering 5th Semester I,Practical,C7.303,27,27
 512,5DMET T20,CSEN 501 5DMET T20,CSEN 501,Data Base I,2,4,MET Digital Media Engineering 5th Semester I,Tutorial,C5.304,28,18
 699,CSEN L01,CSEN 605 CSEN L01,CSEN 605,Digital System Design ,2,1,MET Computer Science 5th Semester I,Lecture,H11,100,125
 121,5CSEN T10,CSEN 605 5CSEN T10,CSEN 605,Digital System Design ,1,1,MET Computer Science 5th Semester I,Tutorial,C7.217,30,28

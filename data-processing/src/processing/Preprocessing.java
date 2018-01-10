@@ -7,8 +7,12 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Hashtable;
 import java.util.Map.Entry;
+
+import javafx.util.Pair;
 
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -21,18 +25,22 @@ public class Preprocessing {
 	public static Hashtable<String,Staff> staffHT;
 	public static Hashtable<String,Staff> tutHT;
 	public static Hashtable<String,Room> roomHT;
+	
 	public static Hashtable<String, ArrayList<String>> TutorialGroup;
 	public static Hashtable<String,ArrayList<WeekDaySlot>> groupTutorialSchedule;
 	public static ArrayList<GroupEntry> GE;
 	public static ArrayList<StaffEntry> SE;
 	public static ArrayList<WeekDaySlot> officialHolidays;
+	
 	static int[][] roomCompEachWeek;
-	static  ArrayList<Integer> roomsIDs ;
-	static	ArrayList<Integer> roomsLocs ;
-	static	ArrayList<Integer> roomsCaps ;
-	static	ArrayList<Integer> roomsTypes ;
+	static  ArrayList<String> roomsNames;
+	static  ArrayList<Integer> roomsIDs;
+	static	ArrayList<Integer> roomsLocs;
+	static	ArrayList<Integer> roomsCaps;
+	static	ArrayList<Integer> roomsTypes;
 	static	ArrayList<Integer> roomsOccupLists;
-	static	ArrayList<Integer> roomscompLists ;
+	
+	//User Input
 	static  ArrayList<WeekDaySlot> preftTimes;
 	static  int[] prefLocs;
 	static  String stuffID;
@@ -40,21 +48,7 @@ public class Preprocessing {
 	static int prefRoomType;
 	static int startWeek;
 	static int startDay;
-	
-	
-	
-//	public static void main(String[] args) throws Exception{
-//		 init();
-//		 formatFronEnd("0xD4ED63E71DC441013FC5FB1858254F4E15A95D7E", "MET Computer Science 5th Semester II 19", "1", "5", "2", "3", "4", "4", "1", "2", "3", "Hall" , "1", "1");
-//		 for (Entry<String,Room>  r : roomHT.entrySet() ) {
-//				System.out.println(r.getValue().occupiedSlots);
-//			}
-//		 System.out.println(groupHT);
-//		 //storeCompensation(stuffID,groupName);    
-//		 query();                                                                                   
-//	}
-	
-	
+
 	public static Compensation query(String StuffID, String GroupID,String Day1,String Slot1,String Day2,
 			String Slot2, String Day3, String Slot3, String B, String C, String D,String prefType,String week,String Day) throws IOException, ParserConfigurationException, SAXException{
 		formatFronEnd(StuffID, GroupID, Day1, Slot1, Day2, Slot2, Day3, Slot3, B, C, D, prefType, week, Day);
@@ -76,6 +70,8 @@ public class Preprocessing {
 		 preProcessData();
 		 officialHolidays = new ArrayList<WeekDaySlot>();
 		 officialHolidays.add(new WeekDaySlot(3, 3, 0));
+		 
+		 OutputHandler.initHandler();
 	}
 	
 	public static void formatFronEnd(String StuffID, String GroupID,String Day1,String Slot1,String Day2,
@@ -93,13 +89,18 @@ public class Preprocessing {
 		case"Room": prefRoomType = 2;break; 
 		case"Hall":	prefRoomType = 3;break;
 		}
+		Pair<Integer, Integer> pairB = new Pair<Integer, Integer>(1, Integer.parseInt(B));
+		Pair<Integer, Integer> pairC = new Pair<Integer, Integer>(2, Integer.parseInt(C));
+		Pair<Integer, Integer> pairD = new Pair<Integer, Integer>(3, Integer.parseInt(D));
+		ArrayList<Pair<Integer, Integer> > pairs = new ArrayList<Pair<Integer, Integer> >();
+		pairs.add(pairB); pairs.add(pairC); pairs.add(pairD);
+		final Comparator<Pair<Integer, Integer>> compare = Comparator.comparing(Pair::getValue);
+		Collections.sort(pairs, compare);
 		prefLocs = new int[3];
-		prefLocs[0] = Integer.parseInt(B);
-		prefLocs[1] = Integer.parseInt(C);
-		prefLocs[2] = Integer.parseInt(D);
+		prefLocs[0] = pairs.get(0).getKey();
+		prefLocs[1] = pairs.get(1).getKey();
+		prefLocs[2] = pairs.get(2).getKey();
 	}
-	
-
 	
 	public static void preProcessData(){
 		 processTutorialGroup();
@@ -113,20 +114,20 @@ public class Preprocessing {
 		 roomsCaps = new ArrayList<Integer>();
 		 roomsTypes = new ArrayList<Integer>();
 		 roomsOccupLists = new ArrayList<Integer>();
-		 roomscompLists = new ArrayList<Integer>();
+		 roomsNames = new ArrayList<String>();
 		 roomCompEachWeek = new int[16][roomHT.size()];
 		 for (int j = 0; j < 16; j++) {
 			 Arrays.fill(roomCompEachWeek[j],0);
 		 }
 			int i = 1;
 		    for (Entry<String,Room> roomEntry : roomHT.entrySet()) {
+		    	roomsNames.add(roomEntry.getValue().ID);
 		    	roomsIDs.add(i);
 		    	roomsLocs.add(roomEntry.getValue().location);
 		    	roomsCaps.add(roomEntry.getValue().capacity);
 		    	roomsTypes.add(roomEntry.getValue().type);
 		    	ArrayList<WeekDaySlot> occuplists = roomEntry.getValue().occupiedSlots;
 		    	roomsOccupLists.add(mapOccupiedSlots(occuplists));
-		    	ArrayList<WeekDaySlot> complists =  roomEntry.getValue().compDates;
 		    	i++;
 		    }
 
@@ -138,6 +139,8 @@ public class Preprocessing {
 	
 	public static Compensation storeCompensation(String staffID, String groupID) throws ParserConfigurationException, SAXException, IOException{
 		Compensation comp = OutputHandler.readCompensationXML(staffID, groupID);
+		comp.roomName = roomsNames.get(Integer.parseInt(comp.roomID) - 1);
+		OutputHandler.storeCompensationCSV(comp);
 		// Store TA compensation date.
 		staffHT.get(comp.staffID).getCompDates().add(comp.time);
 		// Store group compensation date.

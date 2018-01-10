@@ -54,3 +54,5 @@ local.properties
 .project
 .classpath
 cp-project/
+
+.DS_Store

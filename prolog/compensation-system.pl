@@ -11,7 +11,9 @@ days_count(6).
 slots_count(5).
 
 compensate(IN, OUT):-
-
+  open('output.xml', write, Stream),
+  write(''),
+  close(Stream),
   %----------------------------VARIABLES----------------------------------------
 
   IN = (TA, Group, CompStart, Holidays, Rooms, Preferences),
@@ -92,9 +94,9 @@ compensate(IN, OUT):-
   CompSlot, 'RoomID: ', RoomID),
   labeling([min(Cost)], [CompWeek, CompDay, CompSlot, RoomIdx]),
   %----------------------------OUTPUT-------------------------------------------
-  open('output.xml', write, Stream),
-  write_result(Stream, Compensation, RoomID),
-  close(Stream).
+  open('output.xml', write, Stream1),
+  write_result(Stream1, Compensation, RoomID),
+  close(Stream1).
 %----------------------------END OF MAIN PREDICATE------------------------------
 
 %-------------------------------------------------------------------------------
